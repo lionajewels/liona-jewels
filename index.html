@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Liona Jewels</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -11,6 +15,7 @@
 
 <header>
   <div class="logo">LIONA JEWELS</div>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="shop.html">Productos</a>
@@ -18,14 +23,43 @@
   </nav>
 </header>
 
+<!-- HERO -->
 <section class="hero reveal">
   <h1>LIONA JEWELS</h1>
   <p>Joyas hipoalergénicas hechas a mano</p>
 </section>
 
-<section class="center reveal">
-  <img src="logo.png" class="big-logo">
+<!-- CARRUSEL -->
+<section class="carousel-section reveal">
+  <h2>Destacados</h2>
+
+  <div class="carousel">
+
+    <div class="carousel-card">
+      <img src="img1.jpg" alt="Pendiente minimal">
+      <p>Pendiente minimal</p>
+    </div>
+
+    <div class="carousel-card">
+      <img src="img2.jpg" alt="Pendiente perla">
+      <p>Pendiente perla</p>
+    </div>
+
+    <div class="carousel-card">
+      <img src="img3.jpg" alt="Aros gold">
+      <p>Aros gold</p>
+    </div>
+
+  </div>
 </section>
+
+<!-- CTA -->
+<section class="cta reveal">
+  <a href="shop.html" class="btn">Ver colección</a>
+</section>
+
+<!-- APP CORE (fav + cart + animaciones + admin + productos dinámicos) -->
+<script src="app.js"></script>
 
 </body>
 </html>
