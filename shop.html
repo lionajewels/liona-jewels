@@ -3,46 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Shop - Liona Jewels</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
 <header>
+
   <div class="logo">LIONA JEWELS</div>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="shop.html">Productos</a>
     <a href="contact.html">Contacto</a>
   </nav>
+
+  <!-- CARRO PREMIUM SVG -->
+  <div class="cart-btn" onclick="toggleCart()">
+
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 5H5L7 15H18L21 8H8"
+        stroke="black"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+      <circle cx="9" cy="20" r="1.5" fill="black"/>
+      <circle cx="18" cy="20" r="1.5" fill="black"/>
+    </svg>
+
+    <span id="count">0</span>
+
+  </div>
+
 </header>
 
-<div class="cart-bar">
-  🛒 <span id="count">0</span> items
+<!-- FILTERS -->
+<div class="filters reveal">
+  <button onclick="filter('all')">Todo</button>
+  <button onclick="filter('sencillos')">Sencillos</button>
+  <button onclick="filter('aros')">Aros</button>
+  <button onclick="filter('largos')">Largos</button>
 </div>
 
+<!-- PRODUCTS -->
 <section class="products">
 
-  <div class="card reveal">
+  <div class="card reveal" data-cat="sencillos">
     <img src="img1.jpg">
     <h3>Pendiente minimal</h3>
     <p>12€</p>
+
     <button onclick="add('Minimal',12)">Añadir</button>
+
+    <button class="fav" data-name="Minimal"
+      onclick="toggleFav('Minimal')">
+      🤍
+    </button>
   </div>
 
-  <div class="card reveal">
+  <div class="card reveal" data-cat="sencillos">
     <img src="img2.jpg">
     <h3>Pendiente perla</h3>
     <p>14€</p>
+
     <button onclick="add('Perla',14)">Añadir</button>
+
+    <button class="fav" data-name="Perla"
+      onclick="toggleFav('Perla')">
+      🤍
+    </button>
   </div>
 
-  <div class="card reveal">
+  <div class="card reveal" data-cat="aros">
     <img src="img3.jpg">
     <h3>Aros gold</h3>
     <p>16€</p>
+
     <button onclick="add('Aros',16)">Añadir</button>
+
+    <button class="fav" data-name="Aros"
+      onclick="toggleFav('Aros')">
+      🤍
+    </button>
   </div>
 
 </section>
@@ -68,6 +116,7 @@
 
 </div>
 
+<!-- APP -->
 <script src="app.js"></script>
 
 </body>
