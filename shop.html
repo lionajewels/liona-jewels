@@ -48,14 +48,27 @@
 </section>
 
 <!-- CART -->
-<div class="cart" id="cart">
-  <h3>Carrito</h3>
-  <div id="items"></div>
-  <p>Total: <span id="total">0</span>€</p>
-  <button onclick="checkout()">Finalizar</button>
+<div id="overlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+<div id="cart" class="cart-panel">
+
+  <h2>Tu carrito</h2>
+
+  <div id="cartItems"></div>
+
+  <div class="cart-footer">
+
+    <p>Total: <span id="total">0</span>€</p>
+
+    <button onclick="goCheckout()">
+      Finalizar pedido
+    </button>
+
+  </div>
+
 </div>
 
-<script src="shop.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
