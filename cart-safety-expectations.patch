@@ -1,0 +1,286 @@
+From 25346f3b0c70bc687142c829fde4e426eb566ffa Mon Sep 17 00:00:00 2001
+From: Laura Maldonado <lauramaldonado@MacBook-Air-5.local>
+Date: Fri, 5 Jun 2026 19:00:11 +0200
+Subject: [PATCH] Fix cart drawer and safer product rendering
+
+---
+ admin.html    |  5 +++
+ app.js        | 87 ++++++++++++++++++++++++++++++++-------------------
+ checkout.html | 22 ++++++++-----
+ styles.css    | 68 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 142 insertions(+), 40 deletions(-)
+
+diff --git a/admin.html b/admin.html
+index 93e78b9..17747ba 100644
+--- a/admin.html
++++ b/admin.html
+@@ -1,4 +1,9 @@
++<link rel="stylesheet" href="styles.css">
++
+ <h2>Panel Liona Jewels</h2>
++<p class="notice">
++  Los productos que anadas aqui se guardan solo en este navegador. Para publicar cambios para todas las visitas, actualiza el catalogo del sitio.
++</p>
+ 
+ <input id="name" placeholder="Nombre">
+ <input id="price" placeholder="Precio">
+diff --git a/app.js b/app.js
+index 70b3875..f49bb62 100644
+--- a/app.js
++++ b/app.js
+@@ -11,7 +11,10 @@ let products = JSON.parse(localStorage.getItem("products")) || [
+ ========================= */
+ 
+ function add(name, price){
+-  cart.push({name, price});
++  cart.push({
++    name: String(name || ""),
++    price: Number(price) || 0
++  });
+   saveCart();
+   renderCart();
+ }
+@@ -47,7 +50,7 @@ function updateFavUI(){
+   document.querySelectorAll(".fav").forEach(btn=>{
+     const name = btn.dataset.name;
+     if(name){
+-      btn.innerHTML = isFav(name) ? "❤️" : "🤍";
++      btn.textContent = isFav(name) ? "❤️" : "🤍";
+     }
+   });
+ }
+@@ -65,20 +68,27 @@ function renderCart(){
+   const cartItems = document.getElementById("cartItems");
+   if(!cartItems) return;
+ 
+-  let html = "";
+   let total = 0;
++  cartItems.innerHTML = "";
+ 
+   cart.forEach((i, index)=>{
+-    html += `
+-      <div class="item">
+-        <span>${i.name} - ${i.price}€</span>
+-        <span onclick="removeItem(${index})" style="cursor:pointer;">✕</span>
+-      </div>
+-    `;
+-    total += i.price;
++    const item = document.createElement("div");
++    const details = document.createElement("span");
++    const remove = document.createElement("button");
++    const price = Number(i.price) || 0;
++
++    item.className = "item";
++    details.textContent = `${String(i.name || "")} - ${price}€`;
++    remove.className = "remove-item";
++    remove.type = "button";
++    remove.textContent = "✕";
++    remove.addEventListener("click", () => removeItem(index));
++
++    item.append(details, remove);
++    cartItems.appendChild(item);
++    total += price;
+   });
+ 
+-  cartItems.innerHTML = html;
+   document.getElementById("total").innerText = total;
+   document.getElementById("count").innerText = cart.length;
+ }
+@@ -107,10 +117,10 @@ function goCheckout(){
+ ========================= */
+ 
+ function addProduct(){
+-  const name = document.getElementById("name").value;
++  const name = document.getElementById("name").value.trim();
+   const price = +document.getElementById("price").value;
+-  const img = document.getElementById("img").value;
+-  const cat = document.getElementById("cat").value;
++  const img = document.getElementById("img").value.trim();
++  const cat = document.getElementById("cat").value.trim();
+ 
+   if(!name || !price || !img || !cat){
+     alert("Rellena todos los campos 💎");
+@@ -134,25 +144,36 @@ function renderProducts(){
+   container.innerHTML = "";
+ 
+   products.forEach(p=>{
+-    container.innerHTML += `
+-      <div class="card reveal" data-cat="${p.cat}">
+-
+-        <img src="${p.img}" alt="${p.name}">
+-
+-        <h3>${p.name}</h3>
+-        <p>${p.price}€</p>
+-
+-        <button onclick="add('${p.name}',${p.price})">
+-          Añadir
+-        </button>
+-
+-        <button class="fav" data-name="${p.name}"
+-          onclick="toggleFav('${p.name}')">
+-          ${isFav(p.name) ? "❤️" : "🤍"}
+-        </button>
+-
+-      </div>
+-    `;
++    const name = String(p.name || "");
++    const price = Number(p.price) || 0;
++    const card = document.createElement("div");
++    const image = document.createElement("img");
++    const title = document.createElement("h3");
++    const priceText = document.createElement("p");
++    const addButton = document.createElement("button");
++    const favButton = document.createElement("button");
++
++    card.className = "card reveal";
++    card.dataset.cat = String(p.cat || "");
++
++    image.src = String(p.img || "");
++    image.alt = name;
++
++    title.textContent = name;
++    priceText.textContent = `${price}€`;
++
++    addButton.type = "button";
++    addButton.textContent = "Añadir";
++    addButton.addEventListener("click", () => add(name, price));
++
++    favButton.className = "fav";
++    favButton.type = "button";
++    favButton.dataset.name = name;
++    favButton.textContent = isFav(name) ? "❤️" : "🤍";
++    favButton.addEventListener("click", () => toggleFav(name));
++
++    card.append(image, title, priceText, addButton, favButton);
++    container.appendChild(card);
+   });
+ 
+   updateFavUI();
+diff --git a/checkout.html b/checkout.html
+index 5923115..5d79365 100644
+--- a/checkout.html
++++ b/checkout.html
+@@ -1,4 +1,9 @@
++<link rel="stylesheet" href="styles.css">
++
+ <h1>Checkout</h1>
++<p class="notice">
++  Esta pagina prepara un resumen del pedido. Todavia no procesa pagos ni envia el pedido automaticamente.
++</p>
+ 
+ <div id="summary"></div>
+ <p>Total: <span id="total">0</span>€</p>
+@@ -12,21 +17,24 @@
+ <script src="app.js"></script>
+ 
+ <script>
+-let cart = JSON.parse(localStorage.getItem("cart")) || [];
++const checkoutCart = JSON.parse(localStorage.getItem("cart")) || [];
++const summary = document.getElementById("summary");
+ 
+-let html = "";
+ let total = 0;
+ 
+-cart.forEach(i=>{
+-  html += `<div>${i.name} ${i.price}€</div>`;
+-  total += i.price;
++checkoutCart.forEach(i=>{
++  const row = document.createElement("div");
++  const price = Number(i.price) || 0;
++
++  row.textContent = `${String(i.name || "")} ${price}€`;
++  summary.appendChild(row);
++  total += price;
+ });
+ 
+-document.getElementById("summary").innerHTML = html;
+ document.getElementById("total").innerText = total;
+ 
+ function finish(){
+-  alert("Pedido confirmado 💎");
++  alert("Resumen guardado. Contactaremos contigo para finalizar el pedido 💎");
+   localStorage.removeItem("cart");
+   window.location.href = "index.html";
+ }
+diff --git a/styles.css b/styles.css
+index a345070..083f663 100644
+--- a/styles.css
++++ b/styles.css
+@@ -147,6 +147,74 @@ nav a{
+   justify-content:center;
+ }
+ 
++.cart-overlay{
++  position:fixed;
++  inset:0;
++  background:rgba(0,0,0,0.28);
++  opacity:0;
++  pointer-events:none;
++  transition:opacity .3s ease;
++  z-index:20;
++}
++
++.cart-overlay.show{
++  opacity:1;
++  pointer-events:auto;
++}
++
++.cart-panel{
++  position:fixed;
++  top:0;
++  right:0;
++  width:min(380px, 90vw);
++  height:100vh;
++  background:white;
++  box-shadow:-18px 0 45px rgba(0,0,0,0.16);
++  padding:28px 22px;
++  transform:translateX(100%);
++  transition:transform .35s ease;
++  z-index:30;
++  display:flex;
++  flex-direction:column;
++  gap:18px;
++  box-sizing:border-box;
++}
++
++.cart-panel.open{
++  transform:translateX(0);
++}
++
++.item{
++  display:flex;
++  align-items:center;
++  justify-content:space-between;
++  gap:14px;
++  padding:12px 0;
++  border-bottom:1px solid rgba(0,0,0,0.08);
++}
++
++.remove-item{
++  width:32px;
++  height:32px;
++  padding:0;
++  border-radius:50%;
++  cursor:pointer;
++}
++
++.cart-footer{
++  margin-top:auto;
++}
++
++.notice{
++  max-width:560px;
++  margin:16px 0;
++  padding:12px 14px;
++  background:rgba(255,255,255,0.68);
++  border:1px solid rgba(0,0,0,0.08);
++  border-radius:8px;
++  line-height:1.5;
++}
++
+ /* BUTTON */
+ button,.btn{
+   background:#1a1a1a;
+-- 
+2.39.2 (Apple Git-143)
+
