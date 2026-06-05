@@ -1,0 +1,81 @@
+body{
+  margin:0;
+  font-family:Inter;
+  background:#F4D0D1;
+  color:#1a1a1a;
+}
+
+/* NAV */
+header{
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:rgba(255,255,255,0.6);
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(10px);
+}
+
+nav a{
+  margin-left:10px;
+  text-decoration:none;
+  color:#1a1a1a;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:80px 20px;
+}
+
+/* PRODUCTS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:15px;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:10px;
+  border-radius:12px;
+  text-align:center;
+}
+
+.card img{
+  width:100%;
+  border-radius:10px;
+}
+
+/* CART */
+.cart{
+  position:fixed;
+  right:0;
+  top:0;
+  width:280px;
+  height:100%;
+  background:white;
+  padding:10px;
+}
+
+/* BUTTON */
+button,.btn{
+  background:#1a1a1a;
+  color:white;
+  padding:8px;
+  border:none;
+  border-radius:8px;
+}
+
+/* REVEAL */
+.reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:1s;
+}
+
+.reveal.show{
+  opacity:1;
+  transform:translateY(0);
+}
