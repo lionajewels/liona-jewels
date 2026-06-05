@@ -21,6 +21,17 @@ nav a{
   text-decoration:none;
   color:#1a1a1a;
 }
+.logo{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+}
+
+.logo img{
+  height:48px;
+  width:auto;
+  display:block;
+}
 
 /* HERO */
 .hero{
