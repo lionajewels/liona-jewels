@@ -6,30 +6,36 @@ let products = JSON.parse(localStorage.getItem("products")) || [
   {name:"Aros", price:16, img:"img3.jpg", cat:"aros"}
 ];
 
-// CART
-function add(name,price){
-  cart.push({name,price});
-  save();
+/* =========================
+   CART (ZARA STYLE)
+========================= */
+
+function add(name, price){
+  cart.push({name, price});
+  saveCart();
   renderCart();
 }
 
 function removeItem(i){
-  cart.splice(i,1);
-  save();
+  cart.splice(i, 1);
+  saveCart();
   renderCart();
 }
 
-function save(){
-  localStorage.setItem("cart",JSON.stringify(cart));
+function saveCart(){
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// FAVORITES
+/* =========================
+   FAVORITES (GLOBAL)
+========================= */
+
 function toggleFav(name){
   favs = favs.includes(name)
-    ? favs.filter(f=>f!==name)
-    : [...favs,name];
+    ? favs.filter(f => f !== name)
+    : [...favs, name];
 
-  localStorage.setItem("favs",JSON.stringify(favs));
+  localStorage.setItem("favs", JSON.stringify(favs));
   updateFavUI();
 }
 
@@ -38,75 +44,146 @@ function isFav(name){
 }
 
 function updateFavUI(){
-  document.querySelectorAll(".fav").forEach(b=>{
-    const name = b.dataset.name;
-    b.innerHTML = isFav(name) ? "❤️" : "🤍";
+  document.querySelectorAll(".fav").forEach(btn=>{
+    const name = btn.dataset.name;
+    if(name){
+      btn.innerHTML = isFav(name) ? "❤️" : "🤍";
+    }
   });
 }
 
-// CART UI (ZARA STYLE)
+/* =========================
+   CART UI (ZARA SLIDE)
+========================= */
+
 function toggleCart(){
-  document.getElementById("cart").classList.toggle("open");
-  document.getElementById("overlay").classList.toggle("show");
+  document.getElementById("cart")?.classList.toggle("open");
+  document.getElementById("overlay")?.classList.toggle("show");
 }
 
 function renderCart(){
+  const cartItems = document.getElementById("cartItems");
+  if(!cartItems) return;
+
   let html = "";
   let total = 0;
 
-  cart.forEach((i,index)=>{
-    html += `<div class="item">
-      ${i.name} ${i.price}€
-      <span onclick="removeItem(${index})">❌</span>
-    </div>`;
+  cart.forEach((i, index)=>{
+    html += `
+      <div class="item">
+        <span>${i.name} - ${i.price}€</span>
+        <span onclick="removeItem(${index})" style="cursor:pointer;">✕</span>
+      </div>
+    `;
     total += i.price;
   });
 
-  if(document.getElementById("cartItems")){
-    document.getElementById("cartItems").innerHTML = html;
-    document.getElementById("total").innerText = total;
-    document.getElementById("count").innerText = cart.length;
-  }
+  cartItems.innerHTML = html;
+  document.getElementById("total").innerText = total;
+  document.getElementById("count").innerText = cart.length;
 }
 
-// FILTERS
+/* =========================
+   FILTERS (SHOP)
+========================= */
+
 function filter(cat){
-  document.querySelectorAll(".card").forEach(c=>{
-    c.style.display = (cat==="all"||c.dataset.cat===cat)?"block":"none";
+  document.querySelectorAll(".card").forEach(card=>{
+    const match = (cat === "all" || card.dataset.cat === cat);
+    card.style.display = match ? "block" : "none";
   });
 }
 
-// CHECKOUT
+/* =========================
+   CHECKOUT
+========================= */
+
 function goCheckout(){
   window.location.href = "checkout.html";
 }
 
-// ADMIN
-function addProduct(){
-  const p = {
-    name:document.getElementById("name").value,
-    price:+document.getElementById("price").value,
-    img:document.getElementById("img").value,
-    cat:document.getElementById("cat").value
-  };
+/* =========================
+   ADMIN PANEL
+========================= */
 
-  products.push(p);
-  localStorage.setItem("products",JSON.stringify(products));
+function addProduct(){
+  const name = document.getElementById("name").value;
+  const price = +document.getElementById("price").value;
+  const img = document.getElementById("img").value;
+  const cat = document.getElementById("cat").value;
+
+  if(!name || !price || !img || !cat){
+    alert("Rellena todos los campos 💎");
+    return;
+  }
+
+  products.push({name, price, img, cat});
+  localStorage.setItem("products", JSON.stringify(products));
 
   alert("Producto añadido 💎");
 }
 
-// INIT
-renderCart();
-updateFavUI();
+/* =========================
+   RENDER PRODUCTS (IMPORTANTE)
+========================= */
 
-// SCROLL REVEAL
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting) e.target.classList.add("show");
+function renderProducts(){
+  const container = document.querySelector(".products");
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  products.forEach(p=>{
+    container.innerHTML += `
+      <div class="card reveal" data-cat="${p.cat}">
+
+        <img src="${p.img}" alt="${p.name}">
+
+        <h3>${p.name}</h3>
+        <p>${p.price}€</p>
+
+        <button onclick="add('${p.name}',${p.price})">
+          Añadir
+        </button>
+
+        <button class="fav" data-name="${p.name}"
+          onclick="toggleFav('${p.name}')">
+          ${isFav(p.name) ? "❤️" : "🤍"}
+        </button>
+
+      </div>
+    `;
   });
-});
 
-document.querySelectorAll(".reveal").forEach(el=>{
-  observer.observe(el);
+  updateFavUI();
+  initReveal();
+}
+
+/* =========================
+   SCROLL REVEAL (APPLE STYLE)
+========================= */
+
+function initReveal(){
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add("show");
+      }
+    });
+  });
+
+  document.querySelectorAll(".reveal").forEach(el=>{
+    observer.observe(el);
+  });
+}
+
+/* =========================
+   INIT APP
+========================= */
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  renderCart();
+  updateFavUI();
+  renderProducts();
+  initReveal();
 });
