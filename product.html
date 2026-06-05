@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Producto - Liona Jewels</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+  <div class="logo">LIONA JEWELS</div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Productos</a>
+    <a href="contact.html">Contacto</a>
+  </nav>
+
+  <div class="cart-btn" onclick="toggleCart()">
+    🛒 <span id="count">0</span>
+  </div>
+</header>
+
+<!-- PRODUCT VIEW -->
+<section class="product-page reveal">
+
+  <img id="pimg" class="product-img">
+
+  <div class="product-info">
+
+    <h1 id="pname"></h1>
+    <p class="price" id="pprice"></p>
+
+    <button id="addBtn">Añadir al carrito</button>
+
+    <button id="favBtn">❤️ Favorito</button>
+
+  </div>
+
+</section>
+
+<!-- CART -->
+<div id="overlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+<div id="cart" class="cart-panel">
+
+  <h2>Tu carrito</h2>
+
+  <div id="cartItems"></div>
+
+  <div class="cart-footer">
+
+    <p>Total: <span id="total">0</span>€</p>
+
+    <button onclick="goCheckout()">
+      Finalizar pedido
+    </button>
+
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+
+<script>
+// ===== LEER URL =====
+const params = new URLSearchParams(window.location.search);
+
+const name = params.get("name");
+const price = params.get("price");
+const img = params.get("img");
+
+// ===== MOSTRAR PRODUCTO =====
+document.getElementById("pname").innerText = name;
+document.getElementById("pprice").innerText = price + "€";
+document.getElementById("pimg").src = img;
+
+// ===== BOTÓN AÑADIR =====
+document.getElementById("addBtn").onclick = () => {
+  add(name, parseFloat(price));
+  alert("Añadido al carrito 💎");
+};
+
+// ===== FAVORITO =====
+document.getElementById("favBtn").onclick = () => {
+  toggleFav(name);
+};
+</script>
+
+</body>
+</html>
