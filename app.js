@@ -11,7 +11,10 @@ let products = JSON.parse(localStorage.getItem("products")) || [
 ========================= */
 
 function add(name, price){
-  cart.push({name, price});
+  cart.push({
+    name: String(name || ""),
+    price: Number(price) || 0
+  });
   saveCart();
   renderCart();
 }
@@ -47,7 +50,7 @@ function updateFavUI(){
   document.querySelectorAll(".fav").forEach(btn=>{
     const name = btn.dataset.name;
     if(name){
-      btn.innerHTML = isFav(name) ? "❤️" : "🤍";
+      btn.textContent = isFav(name) ? "❤️" : "🤍";
     }
   });
 }
@@ -65,20 +68,27 @@ function renderCart(){
   const cartItems = document.getElementById("cartItems");
   if(!cartItems) return;
 
-  let html = "";
   let total = 0;
+  cartItems.innerHTML = "";
 
   cart.forEach((i, index)=>{
-    html += `
-      <div class="item">
-        <span>${i.name} - ${i.price}€</span>
-        <span onclick="removeItem(${index})" style="cursor:pointer;">✕</span>
-      </div>
-    `;
-    total += i.price;
+    const item = document.createElement("div");
+    const details = document.createElement("span");
+    const remove = document.createElement("button");
+    const price = Number(i.price) || 0;
+
+    item.className = "item";
+    details.textContent = `${String(i.name || "")} - ${price}€`;
+    remove.className = "remove-item";
+    remove.type = "button";
+    remove.textContent = "✕";
+    remove.addEventListener("click", () => removeItem(index));
+
+    item.append(details, remove);
+    cartItems.appendChild(item);
+    total += price;
   });
 
-  cartItems.innerHTML = html;
   document.getElementById("total").innerText = total;
   document.getElementById("count").innerText = cart.length;
 }
@@ -107,10 +117,10 @@ function goCheckout(){
 ========================= */
 
 function addProduct(){
-  const name = document.getElementById("name").value;
+  const name = document.getElementById("name").value.trim();
   const price = +document.getElementById("price").value;
-  const img = document.getElementById("img").value;
-  const cat = document.getElementById("cat").value;
+  const img = document.getElementById("img").value.trim();
+  const cat = document.getElementById("cat").value.trim();
 
   if(!name || !price || !img || !cat){
     alert("Rellena todos los campos 💎");
@@ -134,25 +144,36 @@ function renderProducts(){
   container.innerHTML = "";
 
   products.forEach(p=>{
-    container.innerHTML += `
-      <div class="card reveal" data-cat="${p.cat}">
+    const name = String(p.name || "");
+    const price = Number(p.price) || 0;
+    const card = document.createElement("div");
+    const image = document.createElement("img");
+    const title = document.createElement("h3");
+    const priceText = document.createElement("p");
+    const addButton = document.createElement("button");
+    const favButton = document.createElement("button");
 
-        <img src="${p.img}" alt="${p.name}">
+    card.className = "card reveal";
+    card.dataset.cat = String(p.cat || "");
 
-        <h3>${p.name}</h3>
-        <p>${p.price}€</p>
+    image.src = String(p.img || "");
+    image.alt = name;
 
-        <button onclick="add('${p.name}',${p.price})">
-          Añadir
-        </button>
+    title.textContent = name;
+    priceText.textContent = `${price}€`;
 
-        <button class="fav" data-name="${p.name}"
-          onclick="toggleFav('${p.name}')">
-          ${isFav(p.name) ? "❤️" : "🤍"}
-        </button>
+    addButton.type = "button";
+    addButton.textContent = "Añadir";
+    addButton.addEventListener("click", () => add(name, price));
 
-      </div>
-    `;
+    favButton.className = "fav";
+    favButton.type = "button";
+    favButton.dataset.name = name;
+    favButton.textContent = isFav(name) ? "❤️" : "🤍";
+    favButton.addEventListener("click", () => toggleFav(name));
+
+    card.append(image, title, priceText, addButton, favButton);
+    container.appendChild(card);
   });
 
   updateFavUI();

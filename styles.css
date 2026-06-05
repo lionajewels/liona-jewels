@@ -147,6 +147,74 @@ nav a{
   justify-content:center;
 }
 
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.28);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s ease;
+  z-index:20;
+}
+
+.cart-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.cart-panel{
+  position:fixed;
+  top:0;
+  right:0;
+  width:min(380px, 90vw);
+  height:100vh;
+  background:white;
+  box-shadow:-18px 0 45px rgba(0,0,0,0.16);
+  padding:28px 22px;
+  transform:translateX(100%);
+  transition:transform .35s ease;
+  z-index:30;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  box-sizing:border-box;
+}
+
+.cart-panel.open{
+  transform:translateX(0);
+}
+
+.item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(0,0,0,0.08);
+}
+
+.remove-item{
+  width:32px;
+  height:32px;
+  padding:0;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+.cart-footer{
+  margin-top:auto;
+}
+
+.notice{
+  max-width:560px;
+  margin:16px 0;
+  padding:12px 14px;
+  background:rgba(255,255,255,0.68);
+  border:1px solid rgba(0,0,0,0.08);
+  border-radius:8px;
+  line-height:1.5;
+}
+
 /* BUTTON */
 button,.btn{
   background:#1a1a1a;

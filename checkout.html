@@ -1,4 +1,9 @@
+<link rel="stylesheet" href="styles.css">
+
 <h1>Checkout</h1>
+<p class="notice">
+  Esta pagina prepara un resumen del pedido. Todavia no procesa pagos ni envia el pedido automaticamente.
+</p>
 
 <div id="summary"></div>
 <p>Total: <span id="total">0</span>€</p>
@@ -12,21 +17,24 @@
 <script src="app.js"></script>
 
 <script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const checkoutCart = JSON.parse(localStorage.getItem("cart")) || [];
+const summary = document.getElementById("summary");
 
-let html = "";
 let total = 0;
 
-cart.forEach(i=>{
-  html += `<div>${i.name} ${i.price}€</div>`;
-  total += i.price;
+checkoutCart.forEach(i=>{
+  const row = document.createElement("div");
+  const price = Number(i.price) || 0;
+
+  row.textContent = `${String(i.name || "")} ${price}€`;
+  summary.appendChild(row);
+  total += price;
 });
 
-document.getElementById("summary").innerHTML = html;
 document.getElementById("total").innerText = total;
 
 function finish(){
-  alert("Pedido confirmado 💎");
+  alert("Resumen guardado. Contactaremos contigo para finalizar el pedido 💎");
   localStorage.removeItem("cart");
   window.location.href = "index.html";
 }
