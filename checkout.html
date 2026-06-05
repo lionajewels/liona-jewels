@@ -1,0 +1,33 @@
+<h1>Checkout</h1>
+
+<div id="summary"></div>
+<p>Total: <span id="total">0</span>€</p>
+
+<input id="name" placeholder="Nombre">
+<input id="email" placeholder="Email">
+<input id="address" placeholder="Dirección">
+
+<button onclick="finish()">Confirmar pedido</button>
+
+<script src="app.js"></script>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let html = "";
+let total = 0;
+
+cart.forEach(i=>{
+  html += `<div>${i.name} ${i.price}€</div>`;
+  total += i.price;
+});
+
+document.getElementById("summary").innerHTML = html;
+document.getElementById("total").innerText = total;
+
+function finish(){
+  alert("Pedido confirmado 💎");
+  localStorage.removeItem("cart");
+  window.location.href = "index.html";
+}
+</script>
