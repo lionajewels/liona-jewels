@@ -108,3 +108,28 @@ button,.btn{
   opacity:1;
   transform:translateY(0);
 }
+.contact{
+  padding:60px 20px;
+  text-align:center;
+}
+
+.contact h2{
+  font-family:'Playfair Display';
+  font-size:32px;
+  margin-bottom:30px;
+}
+
+.contact-item{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+
+  margin:15px 0;
+
+  font-size:16px;
+}
+
+.contact-item svg{
+  opacity:0.8;
+}
