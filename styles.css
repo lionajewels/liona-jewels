@@ -31,23 +31,82 @@ nav a{
 /* PRODUCTS */
 .products{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:15px;
-  padding:20px;
-}
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:22px;
 
+  padding:40px 20px;
+
+  max-width:1100px;
+  margin:0 auto;
+}
 .card{
   background:white;
-  padding:10px;
-  border-radius:12px;
-  text-align:center;
+  border-radius:18px;
+
+  overflow:hidden;
+
+  box-shadow:0 12px 40px rgba(0,0,0,0.06);
+
+  transition:all .4s ease;
+
+  position:relative;
 }
 
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.12);
+}
 .card img{
   width:100%;
-  border-radius:10px;
+  height:190px;
+  object-fit:cover;
+
+  transition:.5s ease;
 }
 
+.card:hover img{
+  transform:scale(1.05);
+}
+.card button{
+  background:#111;
+  color:white;
+
+  border:none;
+  padding:8px 12px;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
+  margin-top:10px;
+
+  font-size:13px;
+
+  transition:.3s;
+}
+
+.card button:hover{
+  transform:translateY(-2px);
+  opacity:.9;
+}
+.fav{
+  background:transparent;
+  border:none;
+
+  font-size:18px;
+
+  position:absolute;
+  top:10px;
+  right:10px;
+
+  cursor:pointer;
+
+  transition:.3s;
+}
+
+.fav:hover{
+  transform:scale(1.2);
+}
 /* CART */
 .cart-btn{
   position:relative;
