@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop - Liona Jewels</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+  <div class="logo">LIONA JEWELS</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Productos</a>
+    <a href="contact.html">Contacto</a>
+  </nav>
+</header>
+
+<div class="cart-bar">
+  🛒 <span id="count">0</span> items
+</div>
+
+<section class="products">
+
+  <div class="card reveal">
+    <img src="img1.jpg">
+    <h3>Pendiente minimal</h3>
+    <p>12€</p>
+    <button onclick="add('Minimal',12)">Añadir</button>
+  </div>
+
+  <div class="card reveal">
+    <img src="img2.jpg">
+    <h3>Pendiente perla</h3>
+    <p>14€</p>
+    <button onclick="add('Perla',14)">Añadir</button>
+  </div>
+
+  <div class="card reveal">
+    <img src="img3.jpg">
+    <h3>Aros gold</h3>
+    <p>16€</p>
+    <button onclick="add('Aros',16)">Añadir</button>
+  </div>
+
+</section>
+
+<!-- CART -->
+<div class="cart" id="cart">
+  <h3>Carrito</h3>
+  <div id="items"></div>
+  <p>Total: <span id="total">0</span>€</p>
+  <button onclick="checkout()">Finalizar</button>
+</div>
+
+<script src="shop.js"></script>
+
+</body>
+</html>
