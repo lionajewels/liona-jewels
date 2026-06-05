@@ -73,7 +73,23 @@
 <section class="cta reveal">
   <a href="shop.html" class="btn">Ver colección</a>
 </section>
+<div id="overlay" class="cart-overlay" onclick="toggleCart()"></div>
 
+<div id="cart" class="cart-panel">
+
+  <h2>Tu carrito</h2>
+
+  <div id="cartItems"></div>
+
+  <div class="cart-footer">
+    <p>Total: <span id="total">0</span>€</p>
+
+    <button onclick="goCheckout()">
+      Finalizar pedido
+    </button>
+  </div>
+
+</div>
 <!-- APP CORE (fav + cart + animaciones + admin + productos dinámicos) -->
 <script src="app.js"></script>
 
