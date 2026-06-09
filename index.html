@@ -42,39 +42,126 @@
 </header>
 
 <!-- HERO -->
-<section class="hero reveal">
-  <h1>LIONA JEWELS</h1>
-  <p>Joyas hipoalergénicas hechas a mano</p>
-</section>
+<section class="hero">
+  
+  <div class="hero-content">
 
-<!-- CARRUSEL -->
-<section class="carousel-section reveal">
-  <h2>Destacados</h2>
+    <span class="hero-tag">
+      LIONA JEWELS
+    </span>
 
-  <div class="carousel">
+    <h1>
+      Joyas delicadas para cada momento
+    </h1>
 
-    <div class="carousel-card">
-      <img src="img1.jpg" alt="Pendiente minimal">
-      <p>Pendiente minimal</p>
-    </div>
+    <p>
+      Diseños hipoalergénicos hechos a mano para acompañarte todos los días.
+    </p>
 
-    <div class="carousel-card">
-      <img src="img2.jpg" alt="Pendiente perla">
-      <p>Pendiente perla</p>
-    </div>
-
-    <div class="carousel-card">
-      <img src="img3.jpg" alt="Aros gold">
-      <p>Aros gold</p>
-    </div>
+    <a href="shop.html" class="btn">
+      Descubrir colección
+    </a>
 
   </div>
+
 </section>
 
-<!-- CTA -->
-<section class="cta reveal">
-  <a href="shop.html" class="btn">Ver colección</a>
+<section class="values reveal">
+
+  <div class="value">
+    ✨ Hecho a mano
+  </div>
+
+  <div class="value">
+    💎 Hipoalergénico
+  </div>
+
+  <div class="value">
+    🚚 Envío rápido
+  </div>
+
 </section>
+
+<section class="featured reveal">
+
+  <div class="featured-image">
+    <img src="img1.jpg" alt="Colección destacada">
+  </div>
+
+  <div class="featured-content">
+
+    <span>Nueva colección</span>
+
+    <h2>
+      Elegancia minimalista
+    </h2>
+
+    <p>
+      Pendientes diseñados para combinar con cualquier estilo.
+    </p>
+
+    <a href="shop.html" class="btn-dark">
+      Ver colección
+    </a>
+
+  </div>
+
+</section>
+
+<section class="categories reveal">
+
+  <h2>Categorías</h2>
+
+  <div class="category-grid">
+
+    <a href="shop.html" class="category-card">
+      Pendientes sencillos
+    </a>
+
+    <a href="shop.html" class="category-card">
+      Pendientes largos
+    </a>
+
+    <a href="shop.html" class="category-card">
+      Aros
+    </a>
+
+    <a href="shop.html" class="category-card">
+      Aretes
+    </a>
+
+  </div>
+
+</section>
+
+<section class="instagram reveal">
+
+  <h2>@lionajewels</h2>
+
+  <p>
+    Inspiración diaria, novedades y lanzamientos.
+  </p>
+
+  <a
+    href="https://instagram.com/lionajewels"
+    target="_blank"
+    class="btn"
+  >
+    Seguir en Instagram
+  </a>
+
+</section>
+
+<footer>
+
+  <div>LIONA JEWELS</div>
+
+  <p>
+    Joyas hipoalergénicas hechas a mano
+  </p>
+
+</footer>
+
 <div id="overlay" class="cart-overlay" onclick="toggleCart()"></div>
 
 <div id="cart" class="cart-panel">
@@ -84,15 +171,17 @@
   <div id="cartItems"></div>
 
   <div class="cart-footer">
+
     <p>Total: <span id="total">0</span>€</p>
 
     <button onclick="goCheckout()">
       Finalizar pedido
     </button>
+
   </div>
 
 </div>
-<!-- APP CORE (fav + cart + animaciones + admin + productos dinámicos) -->
+
 <script src="app.js"></script>
 
 </body>
