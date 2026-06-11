@@ -56,20 +56,30 @@
 <!-- PRODUCTS -->
 <section class="products">
 
-  <div class="card reveal" data-cat="sencillos">
+  <div
+  class="card reveal"
+  data-cat="sencillos"
+  onclick="location.href='product.html?name=Pendiente%20minimal&price=12&img=img1.jpg'"
+>
     <img src="img1.jpg">
     <h3>Pendiente minimal</h3>
     <p>12€</p>
 
-    <button onclick="add('Minimal',12)">Añadir</button>
-
-    <button class="fav" data-name="Minimal"
-      onclick="toggleFav('Minimal')">
-      🤍
+    <button
+  onclick="event.stopPropagation(); add('Minimal',12)">
+     
+    <button
+  class="fav"
+  data-name="Minimal"
+  onclick="event.stopPropagation(); toggleFav('Minimal')">
     </button>
   </div>
 
-  <div class="card reveal" data-cat="sencillos">
+  <div
+  class="card reveal"
+  data-cat="sencillos"
+  onclick="location.href='product.html?name=Pendiente%20minimal&price=12&img=img2.jpg'"
+>
     <img src="img2.jpg">
     <h3>Pendiente perla</h3>
     <p>14€</p>
@@ -82,7 +92,11 @@
     </button>
   </div>
 
-  <div class="card reveal" data-cat="aros">
+  <div
+  class="card reveal"
+  data-cat="aros"
+  onclick="location.href='product.html?name=Aros%20gold&price=16&img=img3.jpg'"
+>
     <img src="img3.jpg">
     <h3>Aros gold</h3>
     <p>16€</p>
