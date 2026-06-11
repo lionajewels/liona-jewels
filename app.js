@@ -208,3 +208,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
   renderProducts();
   initReveal();
 });
+const params = new URLSearchParams(window.location.search);
+
+document.getElementById("productName").innerText =
+params.get("name");
+
+document.getElementById("productPrice").innerText =
+params.get("price") + "€";
+
+document.getElementById("productImg").src =
+params.get("img");
