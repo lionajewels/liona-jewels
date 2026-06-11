@@ -380,7 +380,7 @@ button,.btn{
   border-radius:20px;
 
   text-decoration:none;
-  color:black;
+  color:#111;
 
   transition:.3s;
 }
@@ -419,5 +419,22 @@ footer{
   .hero h1{
     font-size:48px;
   }
+.btn,
+.btn-dark{
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 
+  border-radius:999px;
+
+  transition:all .3s ease;
+}
+
+.btn:hover,
+.btn-dark:hover{
+  transform:translateY(-2px);
+}
+a{
+  -webkit-tap-highlight-color: transparent;
 }
