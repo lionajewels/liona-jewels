@@ -1,41 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Checkout - Liona Jewels</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="styles.css">
+</head>
 
-<h1>Checkout</h1>
-<p class="notice">
-  Esta página prepara un resumen del pedido. Todavía no procesa pagos ni envía el pedido automáticamente.
-</p>
+<body>
 
-<div id="summary"></div>
-<p>Total: <span id="total">0</span>€</p>
+<header>
+  <div class="logo">LIONA JEWELS</div>
+</header>
 
-<input id="name" placeholder="Nombre">
-<input id="email" placeholder="Email">
-<input id="address" placeholder="Dirección">
+<section class="checkout">
 
-<button onclick="finish()">Confirmar pedido</button>
+  <h1>Finalizar pedido</h1>
+
+  <!-- RESUMEN CARRITO -->
+  <div id="orderSummary"></div>
+
+  <!-- FORMULARIO -->
+  <form action="https://formsubmit.co/lionajewels@gmail.com" method="POST">
+
+    <input type="hidden" name="_subject" value="Nuevo pedido Liona Jewels">
+
+    <input type="hidden" name="pedido" id="pedidoInput">
+
+    <input type="text" name="nombre" placeholder="Nombre completo" required>
+
+    <input type="email" name="email" placeholder="Email" required>
+
+    <input type="text" name="direccion" placeholder="Dirección de envío" required>
+
+    <button type="submit">
+      Confirmar pedido
+    </button>
+
+  </form>
+
+</section>
 
 <script src="app.js"></script>
 
 <script>
-const checkoutCart = JSON.parse(localStorage.getItem("cart")) || [];
-const summary = document.getElementById("summary");
+// ===== OBTENER CARRITO =====
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+const summary = document.getElementById("orderSummary");
+const pedidoInput = document.getElementById("pedidoInput");
+
+let text = "PEDIDO LIONA JEWELS:\n\n";
 let total = 0;
 
-checkoutCart.forEach(i=>{
-  const row = document.createElement("div");
-  const price = Number(i.price) || 0;
-
-  row.textContent = `${String(i.name || "")} ${price}€`;
-  summary.appendChild(row);
-  total += price;
+cart.forEach(item=>{
+  text += `- ${item.name} ${item.price}€\n`;
+  total += item.price;
 });
 
-document.getElementById("total").innerText = total;
+text += "\nTOTAL: " + total + "€";
 
-function finish(){
-  alert("Resumen guardado. Contactaremos contigo para finalizar el pedido 💎");
-  localStorage.removeItem("cart");
-  window.location.href = "index.html";
-}
+summary.innerHTML = "<pre>" + text + "</pre>";
+pedidoInput.value = text;
+</script>
+
+</body>
+</html>
 </script>
