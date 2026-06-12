@@ -218,3 +218,48 @@ params.get("price") + "€";
 
 document.getElementById("productImg").src =
 params.get("img");
+
+
+
+/* =========================
+   FAVORITOS
+========================= */
+
+let favs = JSON.parse(localStorage.getItem("favs")) || [];
+
+// guardar
+function saveFavs(){
+  localStorage.setItem("favs", JSON.stringify(favs));
+}
+
+// toggle favorito
+function toggleFav(name, price, img){
+
+  const exists = favs.find(p => p.name === name);
+
+  if(exists){
+    favs = favs.filter(p => p.name !== name);
+  } else {
+    favs.push({name, price, img});
+  }
+
+  saveFavs();
+  updateFavUI();
+}
+
+// comprobar
+function isFav(name){
+  return favs.some(p => p.name === name);
+}
+
+// actualizar UI
+function updateFavUI(){
+
+  document.querySelectorAll(".fav").forEach(btn => {
+
+    const name = btn.dataset.name;
+
+    btn.innerHTML = isFav(name) ? "❤️" : "🤍";
+
+  });
+}
