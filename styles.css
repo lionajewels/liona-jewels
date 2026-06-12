@@ -83,14 +83,16 @@ nav a{
 /* 4.HERO */
 
 .hero{
-  min-height:80vh;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  min-height:85vh;
 
-  text-align:center;
-  padding:30px;
+  background:
+  radial-gradient(
+    circle at top,
+    rgba(255,255,255,.45),
+    transparent 60%
+  );
+
 }
 
 .hero-content{
