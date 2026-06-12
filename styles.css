@@ -30,7 +30,16 @@ img{
   display:block;
   max-width:100%;
 }
+section{
+  position:relative;
+}
 
+.featured,
+.categories,
+.instagram,
+.values{
+  margin-top:40px;
+}
 
 /* 3.HEADER */
 
