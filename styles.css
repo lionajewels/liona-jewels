@@ -674,3 +674,57 @@ footer{
 
 }
 }
+
+
+
+
+/*13.CHECKOUT*/
+.checkout{
+  max-width:600px;
+  margin:80px auto;
+  padding:20px;
+  text-align:center;
+}
+
+.checkout h1{
+  font-family:'Playfair Display';
+  font-size:40px;
+  margin-bottom:30px;
+}
+
+.checkout form{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  margin-top:30px;
+}
+
+.checkout input{
+  padding:14px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,0.1);
+  outline:none;
+  font-family:Inter;
+}
+
+.checkout button{
+  background:#111;
+  color:white;
+  padding:14px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.checkout button:hover{
+  transform:translateY(-2px);
+}
+
+#orderSummary{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  text-align:left;
+  margin-bottom:20px;
+}
