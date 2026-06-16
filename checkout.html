@@ -27,7 +27,9 @@
   <!-- FORMULARIO -->
   <form action="https://formsubmit.co/lionajewels@gmail.com" method="POST">
 
-    <input type="hidden" name="_subject" value="Nuevo pedido Liona Jewels">
+    <input type="hidden" name="_subject" value="💎 Nuevo pedido Liona Jewels">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="box">
 
     <input type="hidden" name="pedido" id="pedidoInput">
 
@@ -48,26 +50,56 @@
 <script src="app.js"></script>
 
 <script>
-// ===== OBTENER CARRITO =====
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+document.addEventListener("DOMContentLoaded", () => {
 
-const summary = document.getElementById("orderSummary");
-const pedidoInput = document.getElementById("pedidoInput");
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let text = "PEDIDO LIONA JEWELS:\n\n";
-let total = 0;
+  const summary = document.getElementById("orderSummary");
+  const pedidoInput = document.getElementById("pedidoInput");
 
-cart.forEach(item=>{
-  text += `- ${item.name} ${item.price}€\n`;
-  total += item.price;
+  let total = 0;
+
+  let html = `
+  <div style="font-family:Arial;padding:20px;">
+    <h2>💎 Liona Jewels - Pedido</h2>
+
+    <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+  `;
+
+  cart.forEach(item => {
+
+    const name = item.name || "";
+    const price = Number(item.price) || 0;
+    const img = item.img || "";
+
+    total += price;
+
+    html += `
+      <tr style="border-bottom:1px solid #eee;">
+        <td style="padding:10px;width:80px;">
+          <img src="${img}" width="60" style="border-radius:8px;">
+        </td>
+
+        <td style="padding:10px;">
+          <strong>${name}</strong><br>
+          <span>${price}€</span>
+        </td>
+      </tr>
+    `;
+  });
+
+  html += `
+    </table>
+
+    <h3 style="margin-top:20px;">Total: ${total}€</h3>
+  </div>
+  `;
+
+  summary.innerHTML = html;
+  pedidoInput.value = html;
+
 });
-
-text += "\nTOTAL: " + total + "€";
-
-summary.innerHTML = "<pre>" + text + "</pre>";
-pedidoInput.value = text;
 </script>
-
 </body>
 </html>
 </script>
