@@ -208,58 +208,24 @@ document.addEventListener("DOMContentLoaded", ()=>{
   renderProducts();
   initReveal();
 });
-const params = new URLSearchParams(window.location.search);
-
-document.getElementById("productName").innerText =
-params.get("name");
-
-document.getElementById("productPrice").innerText =
-params.get("price") + "€";
-
-document.getElementById("productImg").src =
-params.get("img");
-
-
-
 /* =========================
-   FAVORITOS
+   PRODUCT PAGE
 ========================= */
 
-let favs = JSON.parse(localStorage.getItem("favs")) || [];
+if(document.getElementById("pname")){
 
-// guardar
-function saveFavs(){
-  localStorage.setItem("favs", JSON.stringify(favs));
-}
+  const params = new URLSearchParams(window.location.search);
 
-// toggle favorito
-function toggleFav(name, price, img){
+  const name = params.get("name");
+  const price = params.get("price");
+  const img = params.get("img");
 
-  const exists = favs.find(p => p.name === name);
+  document.getElementById("pname").textContent = name;
+  document.getElementById("pprice").textContent = price + "€";
+  document.getElementById("pimg").src = img;
 
-  if(exists){
-    favs = favs.filter(p => p.name !== name);
-  } else {
-    favs.push({name, price, img});
-  }
+  document.getElementById("addBtn").onclick = () => {
+    add(name, Number(price));
+  };
 
-  saveFavs();
-  updateFavUI();
-}
-
-// comprobar
-function isFav(name){
-  return favs.some(p => p.name === name);
-}
-
-// actualizar UI
-function updateFavUI(){
-
-  document.querySelectorAll(".fav").forEach(btn => {
-
-    const name = btn.dataset.name;
-
-    btn.innerHTML = isFav(name) ? "❤️" : "🤍";
-
-  });
 }
