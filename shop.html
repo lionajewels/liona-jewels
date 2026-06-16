@@ -56,57 +56,98 @@
 <!-- PRODUCTS -->
 <section class="products">
 
-  <div
-  class="card reveal"
-  data-cat="sencillos"
-  onclick="location.href='product.html?name=Pendiente%20minimal&price=12&img=img1.jpg'"
->
+  <!-- MINIMAL -->
+  <div class="card reveal"
+    data-cat="sencillos"
+    onclick="location.href='product.html?name=Minimal&price=12&img=img1.jpg'">
+
     <img src="img1.jpg">
     <h3>Pendiente minimal</h3>
     <p>12€</p>
 
-    <button
-  onclick="event.stopPropagation(); add('Minimal',12)">
-     
-    <button
-  class="fav"
+    <button onclick="event.stopPropagation(); add('Minimal',12,'img1.jpg')">
+      Añadir
+    </button>
+
+  <button class="fav"
   data-name="Minimal"
   onclick="event.stopPropagation(); toggleFav('Minimal')">
-    </button>
+
+  <svg class="fav-icon" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 21s-7-4.6-9.5-7.5C-0.5 10 1.5 5.5 5.8 5.2
+         8 5 9.5 6 12 8c2.5-2 4-3 6.2-2.8
+         4.3.3 6.3 4.8 3.2 8.3C19 16.8 12 21 12 21z"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+</button>
   </div>
 
-  <div
-  class="card reveal"
-  data-cat="sencillos"
-  onclick="location.href='product.html?name=Pendiente%20minimal&price=12&img=img2.jpg'"
->
+  <!-- PERLA -->
+  <div class="card reveal"
+    data-cat="sencillos"
+    onclick="location.href='product.html?name=Perla&price=14&img=img2.jpg'">
+
     <img src="img2.jpg">
     <h3>Pendiente perla</h3>
     <p>14€</p>
 
-    <button onclick="add('Perla',14,'img2.jpg')">Añadir</button>
-
-    <button class="fav" data-name="Perla"
-      onclick="toggleFav('Perla')">
-      🤍
+    <button onclick="event.stopPropagation(); add('Perla',14,'img2.jpg')">
+      Añadir
     </button>
+
+   <button class="fav"
+  data-name="Minimal"
+  onclick="event.stopPropagation(); toggleFav('Minimal')">
+
+  <svg class="fav-icon" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 21s-7-4.6-9.5-7.5C-0.5 10 1.5 5.5 5.8 5.2
+         8 5 9.5 6 12 8c2.5-2 4-3 6.2-2.8
+         4.3.3 6.3 4.8 3.2 8.3C19 16.8 12 21 12 21z"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+</button>
   </div>
 
-  <div
-  class="card reveal"
-  data-cat="aros"
-  onclick="location.href='product.html?name=Aros%20gold&price=16&img=img3.jpg'"
->
+  <!-- AROS -->
+  <div class="card reveal"
+    data-cat="aros"
+    onclick="location.href='product.html?name=Aros%20gold&price=16&img=img3.jpg'">
+
     <img src="img3.jpg">
     <h3>Aros gold</h3>
     <p>16€</p>
 
-    <button onclick="add('Aros',16,'img3.jpg')">Añadir</button>
-
-    <button class="fav" data-name="Aros"
-      onclick="toggleFav('Aros')">
-      🤍
+    <button onclick="event.stopPropagation(); add('Aros',16,'img3.jpg')">
+      Añadir
     </button>
+
+  <button class="fav"
+  data-name="Minimal"
+  onclick="event.stopPropagation(); toggleFav('Minimal')">
+
+  <svg class="fav-icon" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 21s-7-4.6-9.5-7.5C-0.5 10 1.5 5.5 5.8 5.2
+         8 5 9.5 6 12 8c2.5-2 4-3 6.2-2.8
+         4.3.3 6.3 4.8 3.2 8.3C19 16.8 12 21 12 21z"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+</button>
+
   </div>
 
 </section>
