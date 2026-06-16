@@ -10,11 +10,13 @@ let products = JSON.parse(localStorage.getItem("products")) || [
    CART (ZARA STYLE)
 ========================= */
 
-function add(name, price){
+function add(name, price, img = "") {
   cart.push({
-    name: String(name || ""),
-    price: Number(price) || 0
+    name,
+    price: Number(price),
+    img
   });
+
   saveCart();
   renderCart();
 }
