@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
    PRODUCT PAGE
 ========================= */
 
-if(document.getElementById("pname")){
+if (document.getElementById("pname")) {
 
   const params = new URLSearchParams(window.location.search);
 
@@ -224,8 +224,21 @@ if(document.getElementById("pname")){
   document.getElementById("pprice").textContent = price + "€";
   document.getElementById("pimg").src = img;
 
+  // ADD TO CART
   document.getElementById("addBtn").onclick = () => {
     add(name, Number(price));
   };
 
+  // ⭐ FAVORITO (SVG/animación activa)
+  const favBtn = document.getElementById("favBtn");
+
+  // estado inicial visual
+  if (isFav(name)) {
+    favBtn.classList.add("active");
+  }
+
+  favBtn.onclick = () => {
+    toggleFav(name);
+    favBtn.classList.toggle("active");
+  };
 }
