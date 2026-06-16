@@ -50,7 +50,7 @@ function updateFavUI(){
   document.querySelectorAll(".fav").forEach(btn=>{
     const name = btn.dataset.name;
     if(name){
-      btn.textContent = isFav(name) ? "❤️" : "🤍";
+      btn.classList.toggle("active", isFav(name));
     }
   });
 }
