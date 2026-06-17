@@ -230,7 +230,40 @@ function prevImg(btn){
   setImg(img, index - 1);
 }
 
+let touchStartX = 0;
+let touchEndX = 0;
 
+function handleSwipe(imgEl) {
+  const diff = touchStartX - touchEndX;
+
+  if (Math.abs(diff) < 50) return; // evita micro-movimientos
+
+  if (diff > 0) {
+    // swipe izquierda → siguiente
+    const index = parseInt(imgEl.dataset.index || "0");
+    setImg(imgEl, index + 1);
+  } else {
+    // swipe derecha → anterior
+    const index = parseInt(imgEl.dataset.index || "0");
+    setImg(imgEl, index - 1);
+  }
+}
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.querySelectorAll(".carousel-img").forEach(img => {
+
+    img.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    img.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe(img);
+    });
+
+  });
+
+});
 /* =========================
    PRODUCT PAGE FIX
 ========================= */
