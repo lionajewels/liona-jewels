@@ -1,20 +1,42 @@
+/* =========================
+   STATE
+========================= */
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let favs = JSON.parse(localStorage.getItem("favs")) || [];
-let products = JSON.parse(localStorage.getItem("products")) || [
-  {name:"Minimal", price:12, img:"img1.jpg", cat:"sencillos"},
-  {name:"Perla", price:14, img:"img2.jpg", cat:"sencillos"},
-  {name:"Aros", price:16, img:"img3.jpg", cat:"aros"}
+let products = [
+  {
+    name:"Minimal",
+    price:12,
+    cat:"sencillos",
+    images:["img1.jpg","img2.jpg","img3.jpg"]
+  },
+  {
+    name:"Perla",
+    price:14,
+    cat:"sencillos",
+    images:["img4.jpg","img5.jpg","img6.jpg"]
+  },
+  {
+    name:"Aros",
+    price:16,
+    cat:"aros",
+    images:["img7.jpg","img8.jpg","img9.jpg"]
+  }
 ];
 
 /* =========================
-   CART (ZARA STYLE)
+   CART
 ========================= */
 
-function add(name, price){
+function add(name, price, img){
+
   cart.push({
     name: String(name || ""),
-    price: Number(price) || 0
+    price: Number(price) || 0,
+    img: String(img || "")
   });
+
   saveCart();
   renderCart();
 }
@@ -30,33 +52,54 @@ function saveCart(){
 }
 
 /* =========================
-   FAVORITES (GLOBAL)
+   FAVORITES (UNIFICADO)
 ========================= */
 
-function toggleFav(name){
-  favs = favs.includes(name)
-    ? favs.filter(f => f !== name)
-    : [...favs, name];
+function toggleFav(name, price, img){
+
+  const exists = favs.find(p => p.name === name);
+
+  if(exists){
+    favs = favs.filter(p => p.name !== name);
+  } else {
+    favs.push({
+      name: String(name || ""),
+      price: Number(price) || 0,
+      img: String(img || "")
+    });
+  }
 
   localStorage.setItem("favs", JSON.stringify(favs));
   updateFavUI();
 }
 
 function isFav(name){
-  return favs.includes(name);
+  return favs.some(p => p.name === name);
 }
 
 function updateFavUI(){
-  document.querySelectorAll(".fav").forEach(btn=>{
+
+  document.querySelectorAll(".fav").forEach(btn => {
+
     const name = btn.dataset.name;
-    if(name){
-      btn.textContent = isFav(name) ? "❤️" : "🤍";
-    }
+    if(!name) return;
+
+    btn.innerHTML = heartSVG(isFav(name));
   });
 }
-
+function heartSVG(active){
+  return `
+    <svg class="fav-icon ${active ? 'active' : ''}" viewBox="0 0 24 24" fill="none">
+      <path d="M12 21s-7-4.6-9.5-8.5C.5 9.2 2.5 5.5 6.2 5.5c2 0 3.3 1 3.8 2
+        .5-1 1.8-2 3.8-2 3.7 0 5.7 3.7 3.7 7C19 16.4 12 21 12 21z"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linejoin="round"/>
+    </svg>
+  `;
+}
 /* =========================
-   CART UI (ZARA SLIDE)
+   CART UI
 ========================= */
 
 function toggleCart(){
@@ -65,41 +108,48 @@ function toggleCart(){
 }
 
 function renderCart(){
+
   const cartItems = document.getElementById("cartItems");
   if(!cartItems) return;
 
   let total = 0;
   cartItems.innerHTML = "";
 
-  cart.forEach((i, index)=>{
-    const item = document.createElement("div");
-    const details = document.createElement("span");
-    const remove = document.createElement("button");
-    const price = Number(i.price) || 0;
+  cart.forEach((item, index)=>{
 
-    item.className = "item";
-    details.textContent = `${String(i.name || "")} - ${price}€`;
-    remove.className = "remove-item";
-    remove.type = "button";
-    remove.textContent = "✕";
-    remove.addEventListener("click", () => removeItem(index));
+    const div = document.createElement("div");
+    div.className = "item";
 
-    item.append(details, remove);
-    cartItems.appendChild(item);
-    total += price;
+    const text = document.createElement("span");
+    const btn = document.createElement("button");
+
+    text.textContent = `${item.name} - ${item.price}€`;
+
+    btn.textContent = "✕";
+    btn.className = "remove-item";
+    btn.onclick = () => removeItem(index);
+
+    div.append(text, btn);
+    cartItems.appendChild(div);
+
+    total += item.price;
   });
 
-  document.getElementById("total").innerText = total;
-  document.getElementById("count").innerText = cart.length;
+  const totalEl = document.getElementById("total");
+  const countEl = document.getElementById("count");
+
+  if(totalEl) totalEl.innerText = total;
+  if(countEl) countEl.innerText = cart.length;
 }
 
 /* =========================
-   FILTERS (SHOP)
+   FILTERS
 ========================= */
 
 function filter(cat){
+
   document.querySelectorAll(".card").forEach(card=>{
-    const match = (cat === "all" || card.dataset.cat === cat);
+    const match = cat === "all" || card.dataset.cat === cat;
     card.style.display = match ? "block" : "none";
   });
 }
@@ -109,82 +159,73 @@ function filter(cat){
 ========================= */
 
 function goCheckout(){
+  localStorage.setItem("cart", JSON.stringify(cart));
   window.location.href = "checkout.html";
 }
 
 /* =========================
-   ADMIN PANEL
-========================= */
-
-function addProduct(){
-  const name = document.getElementById("name").value.trim();
-  const price = +document.getElementById("price").value;
-  const img = document.getElementById("img").value.trim();
-  const cat = document.getElementById("cat").value.trim();
-
-  if(!name || !price || !img || !cat){
-    alert("Rellena todos los campos 💎");
-    return;
-  }
-
-  products.push({name, price, img, cat});
-  localStorage.setItem("products", JSON.stringify(products));
-
-  alert("Producto añadido 💎");
-}
-
-/* =========================
-   RENDER PRODUCTS (IMPORTANTE)
+   PRODUCTS RENDER
 ========================= */
 
 function renderProducts(){
+
   const container = document.querySelector(".products");
   if(!container) return;
 
   container.innerHTML = "";
 
   products.forEach(p=>{
-    const name = String(p.name || "");
-    const price = Number(p.price) || 0;
+
     const card = document.createElement("div");
-    const image = document.createElement("img");
-    const title = document.createElement("h3");
-    const priceText = document.createElement("p");
-    const addButton = document.createElement("button");
-    const favButton = document.createElement("button");
-
     card.className = "card reveal";
-    card.dataset.cat = String(p.cat || "");
+    card.dataset.cat = p.cat;
+    card.onclick = () => {
+  window.location.href =
+    `product.html?name=${encodeURIComponent(p.name)}`;
+};
 
-    image.src = String(p.img || "");
-    image.alt = name;
+    const img = document.createElement("img");
+    img.src = p.images[0];
 
-    title.textContent = name;
-    priceText.textContent = `${price}€`;
+    const title = document.createElement("h3");
+    title.textContent = p.name;
 
-    addButton.type = "button";
-    addButton.textContent = "Añadir";
-    addButton.addEventListener("click", () => add(name, price));
+    const price = document.createElement("p");
+    price.textContent = `${p.price}€`;
 
-    favButton.className = "fav";
-    favButton.type = "button";
-    favButton.dataset.name = name;
-    favButton.textContent = isFav(name) ? "❤️" : "🤍";
-    favButton.addEventListener("click", () => toggleFav(name));
+    const btn = document.createElement("button");
+    btn.textContent = "Añadir";
+    btn.onclick = (e) => {    e.stopPropagation();    add(     p.name,     p.price,     p.images[0]   ); };
 
-    card.append(image, title, priceText, addButton, favButton);
+    const fav = document.createElement("button");
+    fav.className = "fav";
+    fav.dataset.name = p.name;
+    fav.innerHTML = heartSVG(isFav(p.name));
+   fav.onclick = (e) => {
+
+  e.stopPropagation();
+
+  toggleFav(
+    p.name,
+    p.price,
+    p.images[0]
+  );
+};
+
+    card.append(img, title, price, btn, fav);
     container.appendChild(card);
   });
 
   updateFavUI();
-  initReveal();
+   initReveal();
 }
 
 /* =========================
-   SCROLL REVEAL (APPLE STYLE)
+   REVEAL
 ========================= */
 
 function initReveal(){
+
   const observer = new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
@@ -199,67 +240,61 @@ function initReveal(){
 }
 
 /* =========================
-   INIT APP
+   INIT
 ========================= */
 
 document.addEventListener("DOMContentLoaded", ()=>{
+
   renderCart();
   updateFavUI();
   renderProducts();
   initReveal();
+
 });
-const params = new URLSearchParams(window.location.search);
-
-document.getElementById("productName").innerText =
-params.get("name");
-
-document.getElementById("productPrice").innerText =
-params.get("price") + "€";
-
-document.getElementById("productImg").src =
-params.get("img");
-
-
 
 /* =========================
-   FAVORITOS
+   PRODUCT PAGE FIX
 ========================= */
 
-let favs = JSON.parse(localStorage.getItem("favs")) || [];
+const params = new URLSearchParams(window.location.search);
 
-// guardar
-function saveFavs(){
-  localStorage.setItem("favs", JSON.stringify(favs));
-}
+const pname = document.getElementById("pname");
+const pprice = document.getElementById("pprice");
+const pimg = document.getElementById("pimg");
 
-// toggle favorito
-function toggleFav(name, price, img){
+if (pname && pprice && pimg) {
 
-  const exists = favs.find(p => p.name === name);
+  const name = params.get("name");
 
-  if(exists){
-    favs = favs.filter(p => p.name !== name);
+  const product = products.find(p => p.name === name);
+
+  if (!product) {
+    window.location.href = "shop.html";
   } else {
-    favs.push({name, price, img});
+
+    pname.innerText = product.name;
+    pprice.innerText = product.price + "€";
+    pimg.src = product.images[0];
+
+    const addBtn = document.getElementById("addBtn");
+    const favBtn = document.getElementById("favBtn");
+
+    if (addBtn) {
+      addBtn.onclick = () => {
+        add(product.name, product.price, product.images[0]);
+      };
+    }
+
+    if (favBtn) {
+
+      if (isFav(product.name)) {
+        favBtn.classList.add("active");
+      }
+
+      favBtn.onclick = () => {
+        toggleFav(product.name, product.price, product.images[0]);
+        favBtn.innerHTML = heartSVG(isFav(product.name));
+      };
+    }
   }
-
-  saveFavs();
-  updateFavUI();
-}
-
-// comprobar
-function isFav(name){
-  return favs.some(p => p.name === name);
-}
-
-// actualizar UI
-function updateFavUI(){
-
-  document.querySelectorAll(".fav").forEach(btn => {
-
-    const name = btn.dataset.name;
-
-    btn.innerHTML = isFav(name) ? "❤️" : "🤍";
-
-  });
 }
