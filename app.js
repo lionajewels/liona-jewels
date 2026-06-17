@@ -250,7 +250,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
   updateFavUI();
   renderProducts();
   initReveal();
-    syncCarouselOnLoad();
 
 });
 
@@ -291,12 +290,7 @@ function prevImg(btn){
   const index = parseInt(img.dataset.index || "0");
   setImg(img, index - 1);
 }
-function syncCarouselOnLoad(){
-  document.querySelectorAll(".carousel-img").forEach(img=>{
-    const index = parseInt(img.dataset.index || "0");
-    setImg(img, index);
-  });
-}
+
 
 /* =========================
    PRODUCT PAGE FIX
