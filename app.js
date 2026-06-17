@@ -253,7 +253,7 @@ if (pname && pprice && pimg) {
 
     pname.innerText = product.name;
     pprice.innerText = product.price + "€";
-    pimg.src = product.images[0];
+    pimg.src = product.images[0]; pimg.dataset.images = product.images.join(","); pimg.dataset.index = "0";
 
     const addBtn = document.getElementById("addBtn");
     
@@ -266,4 +266,3 @@ if (pname && pprice && pimg) {
     
     }
   }
-}
