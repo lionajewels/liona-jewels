@@ -44,33 +44,42 @@
 </header>
 
 <!-- PRODUCT VIEW -->
-<section class="product-page reveal">
+<!-- CAROUSEL GRANDE -->
+  <div class="carousel product-carousel">
 
-  <img id="pimg" class="product-img">
+    <button class="carousel-btn left"
+      onclick="prevImg(this)">‹</button>
 
+    <img id="pimg"
+      class="carousel-img"
+      src=""
+      data-images=""
+      data-index="0">
+
+    <button class="carousel-btn right"
+      onclick="nextImg(this)">›</button>
+
+  </div>
+
+  <!-- INFO -->
   <div class="product-info">
 
     <h1 id="pname"></h1>
     <p class="price" id="pprice"></p>
 
-    <button id="addBtn" class="btn">Añadir al carrito</button>
+    <button id="addBtn" class="btn">
+      Añadir al carrito
+    </button>
 
-  <button id="favBtn" class="fav-product">
-  <svg class="fav-icon" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 21s-7-4.6-9.5-8.5C.5 9.2 2.5 5.5 6.2 5.5c2 0 3.3 1 3.8 2
-         .5-1 1.8-2 3.8-2 3.7 0 5.7 3.7 3.7 7
-         C19 16.4 12 21 12 21z"
-      stroke="currentColor"
-      stroke-width="1.6"
-      stroke-linejoin="round"
-    />
-  </svg>
-</button>
+    <button id="favBtn" class="fav-product">
+      ♥
+    </button>
 
   </div>
 
 </section>
+
+
 
 <!-- CART -->
 <div id="overlay" class="cart-overlay" onclick="toggleCart()"></div>
@@ -94,6 +103,60 @@
 </div>
 
 <script src="app.js"></script>
+<script>
+/* =========================
+   PRODUCT LOADER
+========================= */
+
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
+
+const product = products.find(p => p.name === name);
+
+if (!product) {
+  window.location.href = "shop.html";
+}
+
+/* =========================
+   RENDER PRODUCT
+========================= */
+
+const pname = document.getElementById("pname");
+const pprice = document.getElementById("pprice");
+const pimg = document.getElementById("pimg");
+
+pname.textContent = product.name;
+pprice.textContent = product.price + "€";
+
+/* 🔥 CARRUSEL SETUP */
+pimg.src = product.images[0];
+pimg.dataset.images = product.images.join(",");
+pimg.dataset.index = "0";
+
+/* =========================
+   ADD TO CART
+========================= */
+
+document.getElementById("addBtn").onclick = () => {
+  add(product.name, product.price, product.images[0]);
+};
+
+/* =========================
+   FAVORITE
+========================= */
+
+const favBtn = document.getElementById("favBtn");
+
+if (isFav(product.name)) {
+  favBtn.classList.add("active");
+}
+
+favBtn.onclick = () => {
+  toggleFav(product.name, product.price, product.images[0]);
+
+  favBtn.classList.toggle("active");
+};
+</script>
 
 
 </body>
