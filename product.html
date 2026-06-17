@@ -103,60 +103,6 @@
 </div>
 
 <script src="app.js"></script>
-<script>
-/* =========================
-   PRODUCT LOADER
-========================= */
-
-const params = new URLSearchParams(window.location.search);
-const name = params.get("name");
-
-const product = products.find(p => p.name === name);
-
-if (!product) {
-  window.location.href = "shop.html";
-}
-
-/* =========================
-   RENDER PRODUCT
-========================= */
-
-const pname = document.getElementById("pname");
-const pprice = document.getElementById("pprice");
-const pimg = document.getElementById("pimg");
-
-pname.textContent = product.name;
-pprice.textContent = product.price + "€";
-
-/* 🔥 CARRUSEL SETUP */
-pimg.src = product.images[0];
-pimg.dataset.images = product.images.join(",");
-pimg.dataset.index = "0";
-
-/* =========================
-   ADD TO CART
-========================= */
-
-document.getElementById("addBtn").onclick = () => {
-  add(product.name, product.price, product.images[0]);
-};
-
-/* =========================
-   FAVORITE
-========================= */
-
-const favBtn = document.getElementById("favBtn");
-
-if (isFav(product.name)) {
-  favBtn.classList.add("active");
-}
-
-favBtn.onclick = () => {
-  toggleFav(product.name, product.price, product.images[0]);
-
-  favBtn.classList.toggle("active");
-};
-</script>
 
 
 </body>
