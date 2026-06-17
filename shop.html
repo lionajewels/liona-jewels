@@ -55,7 +55,104 @@
 </div>
 
 <!-- PRODUCTS -->
+<!-- PRODUCTS -->
 <section class="products">
+
+  <!-- PRODUCT 1 -->
+  <div class="card reveal" data-cat="sencillos">
+
+    <div class="carousel">
+
+      <button class="carousel-btn left"
+        onclick="event.stopPropagation(); prevImg(this)">‹</button>
+
+      <img class="carousel-img"
+        src="img1.jpg"
+        data-images="img1.jpg,img2.jpg,img3.jpg"
+        data-index="0"
+        onclick="window.location.href='product.html?name=Minimal'">
+
+      <button class="carousel-btn right"
+        onclick="event.stopPropagation(); nextImg(this)">›</button>
+
+    </div>
+
+    <h3>Minimal</h3>
+    <p>12€</p>
+
+    <button onclick="event.stopPropagation(); add('Minimal',12,'img1.jpg')">
+      Añadir
+    </button>
+
+    <button class="fav" data-name="Minimal"
+      onclick="event.stopPropagation(); toggleFav('Minimal','12','img1.jpg')">
+    </button>
+
+  </div>
+
+  <!-- PRODUCT 2 -->
+  <div class="card reveal" data-cat="sencillos">
+
+    <div class="carousel">
+
+      <button class="carousel-btn left"
+        onclick="event.stopPropagation(); prevImg(this)">‹</button>
+
+      <img class="carousel-img"
+        src="img4.jpg"
+        data-images="img4.jpg,img5.jpg,img6.jpg"
+        data-index="0"
+        onclick="window.location.href='product.html?name=Perla'">
+
+      <button class="carousel-btn right"
+        onclick="event.stopPropagation(); nextImg(this)">›</button>
+
+    </div>
+
+    <h3>Perla</h3>
+    <p>14€</p>
+
+    <button onclick="event.stopPropagation(); add('Perla',14,'img4.jpg')">
+      Añadir
+    </button>
+
+    <button class="fav" data-name="Perla"
+      onclick="event.stopPropagation(); toggleFav('Perla','14','img4.jpg')">
+    </button>
+
+  </div>
+
+  <!-- PRODUCT 3 -->
+  <div class="card reveal" data-cat="aros">
+
+    <div class="carousel">
+
+      <button class="carousel-btn left"
+        onclick="event.stopPropagation(); prevImg(this)">‹</button>
+
+      <img class="carousel-img"
+        src="img7.jpg"
+        data-images="img7.jpg,img8.jpg,img9.jpg"
+        data-index="0"
+        onclick="window.location.href='product.html?name=Aros'">
+
+      <button class="carousel-btn right"
+        onclick="event.stopPropagation(); nextImg(this)">›</button>
+
+    </div>
+
+    <h3>Aros</h3>
+    <p>16€</p>
+
+    <button onclick="event.stopPropagation(); add('Aros',16,'img7.jpg')">
+      Añadir
+    </button>
+
+    <button class="fav" data-name="Aros"
+      onclick="event.stopPropagation(); toggleFav('Aros','16','img7.jpg')">
+    </button>
+
+  </div>
 
 </section>
 
