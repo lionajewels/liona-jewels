@@ -428,56 +428,51 @@ button:hover{
 
 /* 10.CONTACTO */
 
-.contact-lux{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  align-items:center;
-
-  max-width:1100px;
-  margin:40px auto 0;
-  gap:30px;
+.contact{
+  text-align:center;
+  padding:80px 20px;
 }
 
-/* LEFT */
-.contact-left{
+/* LOGO BLOQUE */
+.contact-logo-wrap{
   display:flex;
+  flex-direction:column;
   align-items:center;
-  gap:15px;
+  gap:6px;
+  margin-bottom:25px;
 }
 
 .contact-logo{
-  width:60px;
+  width:70px;
   height:auto;
 }
 
-.contact-left h3{
+.contact-logo-wrap h3{
   font-family:'Playfair Display';
-  font-size:16px;
   margin:0;
 }
 
-.contact-left span{
+.contact-logo-wrap span{
   font-size:12px;
   opacity:.6;
 }
 
-/* CENTER */
-.contact-center{
-  text-align:center;
+/* TEXTO */
+.contact-text{
   opacity:.75;
-  font-size:14px;
+  margin-bottom:35px;
   line-height:1.6;
 }
 
-/* RIGHT */
-.contact-right{
+/* LINKS EN VERTICAL */
+.contact-stack{
   display:flex;
   flex-direction:column;
-  gap:12px;
-  align-items:flex-end;
+  gap:14px;
+  align-items:center;
 }
 
-/* LINKS */
+/* LINK STYLE */
 .contact-link{
   display:flex;
   align-items:center;
@@ -486,37 +481,22 @@ button:hover{
   text-decoration:none;
   color:inherit;
 
-  font-size:14px;
+  font-size:15px;
   opacity:.85;
 
   transition:.25s;
 }
 
-/* 🔥 FIX ICONOS GRANDES */
+/* FIX ICONOS */
 .contact-link svg{
   width:18px;
   height:18px;
-  flex-shrink:0;
 }
 
 /* hover */
 .contact-link:hover{
   transform:translateY(-2px);
   opacity:1;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .contact-lux{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .contact-right,
-  .contact-left{
-    align-items:center;
-    justify-content:center;
-  }
 }
 
 /* 11.ANIMACIONES */
