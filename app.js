@@ -3,7 +3,6 @@
 ========================= */
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let favs = JSON.parse(localStorage.getItem("favs")) || [];
 let products = [
   {
     name:"Minimal",
@@ -51,53 +50,7 @@ function saveCart(){
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-/* =========================
-   FAVORITES (UNIFICADO)
-========================= */
 
-function toggleFav(name, price, img){
-
-  const exists = favs.find(p => p.name === name);
-
-  if(exists){
-    favs = favs.filter(p => p.name !== name);
-  } else {
-    favs.push({
-      name: String(name || ""),
-      price: Number(price) || 0,
-      img: String(img || "")
-    });
-  }
-
-  localStorage.setItem("favs", JSON.stringify(favs));
-  updateFavUI();
-}
-
-function isFav(name){
-  return favs.some(p => p.name === name);
-}
-
-function updateFavUI(){
-
-  document.querySelectorAll(".fav").forEach(btn => {
-
-    const name = btn.dataset.name;
-    if(!name) return;
-
-    btn.innerHTML = heartSVG(isFav(name));
-  });
-}
-function heartSVG(active){
-  return `
-    <svg class="fav-icon ${active ? 'active' : ''}" viewBox="0 0 24 24" fill="none">
-      <path d="M12 21s-7-4.6-9.5-8.5C.5 9.2 2.5 5.5 6.2 5.5c2 0 3.3 1 3.8 2
-        .5-1 1.8-2 3.8-2 3.7 0 5.7 3.7 3.7 7C19 16.4 12 21 12 21z"
-        stroke="currentColor"
-        stroke-width="1.6"
-        stroke-linejoin="round"></path>/>
-    </svg>
-  `;
-}
 /* =========================
    CART UI
 ========================= */
@@ -197,26 +150,13 @@ function renderProducts(){
     btn.textContent = "Añadir";
     btn.onclick = (e) => {    e.stopPropagation();    add(     p.name,     p.price,     p.images[0]   ); };
 
-    const fav = document.createElement("button");
-    fav.className = "fav";
-    fav.dataset.name = p.name;
-    fav.innerHTML = heartSVG(isFav(p.name));
-   fav.onclick = (e) => {
+   
 
-  e.stopPropagation();
-
-  toggleFav(
-    p.name,
-    p.price,
-    p.images[0]
-  );
-};
-
-    card.append(img, title, price, btn, fav);
+    card.append(img, title, price, btn);
     container.appendChild(card);
   });
 
-  updateFavUI();
+  
    initReveal();
 }
 
@@ -247,7 +187,6 @@ function initReveal(){
 document.addEventListener("DOMContentLoaded", ()=>{
 
   renderCart();
-  updateFavUI();
   renderProducts();
   initReveal();
 
@@ -317,25 +256,14 @@ if (pname && pprice && pimg) {
     pimg.src = product.images[0];
 
     const addBtn = document.getElementById("addBtn");
-    const favBtn = document.getElementById("favBtn");
-
+    
     if (addBtn) {
       addBtn.onclick = () => {
         add(product.name, product.price, product.images[0]);
       };
     }
 
-    if (favBtn) {
-
-      if (isFav(product.name)) {
-        favBtn.classList.add("active");
-      }
-
-      favBtn.onclick = () => {
-  toggleFav(product.name, product.price, product.images[0]);
-  updateFavUI();
-         favBtn.classList.toggle("active");
-};
+    
     }
   }
 }
