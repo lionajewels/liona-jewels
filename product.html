@@ -39,7 +39,7 @@
     <h1 id="pname"></h1>
     <p class="price" id="pprice"></p>
 
-    <button id="addBtn">Añadir al carrito</button>
+    <button id="addBtn" class="btn">Añadir al carrito</button>
 
   <button id="favBtn" class="fav-product">
   <svg class="fav-icon" viewBox="0 0 24 24" fill="none">
@@ -96,14 +96,27 @@ document.getElementById("pimg").src = img;
 
 // ===== BOTÓN AÑADIR =====
 document.getElementById("addBtn").onclick = () => {
-  add(name, parseFloat(price));
+  add(name, parseFloat(price), img);
   alert("Añadido al carrito 💎");
 };
 
 // ===== FAVORITO =====
-document.getElementById("favBtn").onclick = () => {
+const favBtn = document.getElementById("favBtn");
+
+// estado inicial
+if (isFav(name)) {
+  favBtn.classList.add("active");
+}
+
+favBtn.onclick = () => {
   toggleFav(name);
+  favBtn.classList.toggle("active");
 };
+
+ if (!name || !price) {
+  document.querySelector(".product-page").innerHTML =
+    "<p>Producto no encontrado</p>";
+}
 </script>
 
 </body>
