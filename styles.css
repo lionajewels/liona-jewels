@@ -438,7 +438,6 @@ button:hover{
   margin-bottom:30px;
 }
 
-/* NUEVO: contenedor vertical luxury */
 .contact-stack{
   display:flex;
   flex-direction:column;
@@ -447,7 +446,6 @@ button:hover{
   margin-top:30px;
 }
 
-/* reemplaza contact-item */
 .contact-link{
   display:flex;
   align-items:center;
@@ -459,22 +457,18 @@ button:hover{
   font-size:16px;
   opacity:.85;
 
-  transition:.25s ease;
+  transition:.25s;
 }
 
-/* iconos */
 .contact-link svg{
   width:20px;
   height:20px;
-  flex-shrink:0;
 }
 
-/* hover premium */
 .contact-link:hover{
   transform:translateY(-2px);
   opacity:1;
 }
-
 
 
 /* 11.ANIMACIONES */
