@@ -140,6 +140,8 @@ function renderCart(){
 
   if(totalEl) totalEl.innerText = total;
   if(countEl) countEl.innerText = cart.length;
+   const countEl = document.getElementById("count");
+if(countEl) countEl.innerText = cart.length;
 }
 
 /* =========================
@@ -243,14 +245,60 @@ function initReveal(){
    INIT
 ========================= */
 
+function syncCarouselOnLoad(){
+  document.querySelectorAll(".carousel-img").forEach(img=>{
+    const index = parseInt(img.dataset.index || "0");
+    setImg(img, index);
+  });
+}
 document.addEventListener("DOMContentLoaded", ()=>{
 
   renderCart();
   updateFavUI();
   renderProducts();
   initReveal();
+    syncCarouselOnLoad();
 
 });
+
+/* =========================
+   CAROUSEL
+========================= */
+
+function getImages(imgEl){
+  const imgs = imgEl.dataset.images;
+  return imgs ? imgs.split(",") : [];
+}
+
+function setImg(imgEl, index){
+  const images = getImages(imgEl);
+
+  if(!images.length) return;
+
+  // loop infinito
+  if(index < 0) index = images.length - 1;
+  if(index >= images.length) index = 0;
+
+  imgEl.dataset.index = index;
+  imgEl.src = images[index];
+}
+
+function nextImg(btn){
+  const img = btn.parentElement.querySelector(".carousel-img");
+  if(!img) return;
+
+  const index = parseInt(img.dataset.index || "0");
+  setImg(img, index + 1);
+}
+
+function prevImg(btn){
+  const img = btn.parentElement.querySelector(".carousel-img");
+  if(!img) return;
+
+  const index = parseInt(img.dataset.index || "0");
+  setImg(img, index - 1);
+}
+
 
 /* =========================
    PRODUCT PAGE FIX
@@ -292,9 +340,9 @@ if (pname && pprice && pimg) {
       }
 
       favBtn.onclick = () => {
-        toggleFav(product.name, product.price, product.images[0]);
-        favBtn.innerHTML = heartSVG(isFav(product.name));
-      };
+  toggleFav(product.name, product.price, product.images[0]);
+  updateFavUI();
+};
     }
   }
 }
