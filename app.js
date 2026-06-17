@@ -1,65 +1,39 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let favs = JSON.parse(localStorage.getItem("favs")) || [];
+let products = JSON.parse(localStorage.getItem("products")) || [
+  {name:"Minimal", price:12, img:"img1.jpg", cat:"sencillos"},
+  {name:"Perla", price:14, img:"img2.jpg", cat:"sencillos"},
+  {name:"Aros", price:16, img:"img3.jpg", cat:"aros"}
+];
 
 /* =========================
-   CART
+   CART (ZARA STYLE)
 ========================= */
 
-function add(name, price, img = "") {
-  cart.push({ name, price: Number(price), img });
+function add(name, price){
+  cart.push({
+    name: String(name || ""),
+    price: Number(price) || 0
+  });
   saveCart();
   renderCart();
 }
 
-function saveCart() {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-function removeItem(i) {
+function removeItem(i){
   cart.splice(i, 1);
   saveCart();
   renderCart();
 }
 
-function toggleCart() {
-  document.getElementById("cart")?.classList.toggle("open");
-  document.getElementById("overlay")?.classList.toggle("show");
-}
-
-function renderCart() {
-  const cartItems = document.getElementById("cartItems");
-  if (!cartItems) return;
-
-  let total = 0;
-  cartItems.innerHTML = "";
-
-  cart.forEach((i, index) => {
-    const item = document.createElement("div");
-    const details = document.createElement("span");
-    const remove = document.createElement("button");
-
-    item.className = "item";
-
-    details.textContent = `${i.name} - ${i.price}€`;
-
-    remove.textContent = "✕";
-    remove.onclick = () => removeItem(index);
-
-    item.append(details, remove);
-    cartItems.appendChild(item);
-
-    total += Number(i.price);
-  });
-
-  document.getElementById("total")?.innerText = total;
-  document.getElementById("count")?.innerText = cart.length;
+function saveCart(){
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 /* =========================
-   FAVORITES
+   FAVORITES (GLOBAL)
 ========================= */
 
-function toggleFav(name) {
+function toggleFav(name){
   favs = favs.includes(name)
     ? favs.filter(f => f !== name)
     : [...favs, name];
@@ -68,107 +42,224 @@ function toggleFav(name) {
   updateFavUI();
 }
 
-function isFav(name) {
+function isFav(name){
   return favs.includes(name);
 }
 
-function updateFavUI() {
-  document.querySelectorAll(".fav").forEach(btn => {
+function updateFavUI(){
+  document.querySelectorAll(".fav").forEach(btn=>{
     const name = btn.dataset.name;
-    if (!name) return;
-    btn.classList.toggle("active", isFav(name));
+    if(name){
+      btn.textContent = isFav(name) ? "❤️" : "🤍";
+    }
   });
 }
 
 /* =========================
-   FILTER SHOP
+   CART UI (ZARA SLIDE)
 ========================= */
 
-function filter(cat) {
-  document.querySelectorAll(".card").forEach(card => {
-    const match = cat === "all" || card.dataset.cat === cat;
+function toggleCart(){
+  document.getElementById("cart")?.classList.toggle("open");
+  document.getElementById("overlay")?.classList.toggle("show");
+}
+
+function renderCart(){
+  const cartItems = document.getElementById("cartItems");
+  if(!cartItems) return;
+
+  let total = 0;
+  cartItems.innerHTML = "";
+
+  cart.forEach((i, index)=>{
+    const item = document.createElement("div");
+    const details = document.createElement("span");
+    const remove = document.createElement("button");
+    const price = Number(i.price) || 0;
+
+    item.className = "item";
+    details.textContent = `${String(i.name || "")} - ${price}€`;
+    remove.className = "remove-item";
+    remove.type = "button";
+    remove.textContent = "✕";
+    remove.addEventListener("click", () => removeItem(index));
+
+    item.append(details, remove);
+    cartItems.appendChild(item);
+    total += price;
+  });
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("count").innerText = cart.length;
+}
+
+/* =========================
+   FILTERS (SHOP)
+========================= */
+
+function filter(cat){
+  document.querySelectorAll(".card").forEach(card=>{
+    const match = (cat === "all" || card.dataset.cat === cat);
     card.style.display = match ? "block" : "none";
   });
 }
 
 /* =========================
-   REVEAL ANIMATION
+   CHECKOUT
 ========================= */
-
-function initReveal() {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add("show");
-    });
-  });
-
-  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-}
-
-/* =========================
-   PRODUCT PAGE (CARRUSEL LIMPIO)
-========================= */
-
-function initProductPage() {
-  const nameEl = document.getElementById("pname");
-  if (!nameEl) return;
-
-  const params = new URLSearchParams(window.location.search);
-
-  const name = params.get("name");
-  const price = params.get("price");
-
-  const imgs = [
-    params.get("img"),
-    params.get("img2"),
-    params.get("img3")
-  ].filter(Boolean);
-
-  document.getElementById("pname").textContent = name;
-  document.getElementById("pprice").textContent = price + "€";
-
-  const mainImg = document.getElementById("mainImg");
-  if (!mainImg) return;
-
-  let index = 0;
-  mainImg.src = imgs[0];
-
-  window.nextImg = () => {
-    index = (index + 1) % imgs.length;
-    mainImg.src = imgs[index];
-  };
-
-  window.prevImg = () => {
-    index = (index - 1 + imgs.length) % imgs.length;
-    mainImg.src = imgs[index];
-  };
-
-  const addBtn = document.getElementById("addBtn");
-  if (addBtn) {
-    addBtn.onclick = () => add(name, Number(price), imgs[0]);
-  }
-
-  const favBtn = document.getElementById("favBtn");
-  if (favBtn) {
-    if (isFav(name)) favBtn.classList.add("active");
-
-    favBtn.onclick = () => {
-      toggleFav(name);
-      favBtn.classList.toggle("active");
-    };
-  }
-}
-/* =========================
-   INIT
-========================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderCart();
-  updateFavUI();
-  initReveal();
-  initProductPage();
-});
 
 function goCheckout(){
   window.location.href = "checkout.html";
+}
+
+/* =========================
+   ADMIN PANEL
+========================= */
+
+function addProduct(){
+  const name = document.getElementById("name").value.trim();
+  const price = +document.getElementById("price").value;
+  const img = document.getElementById("img").value.trim();
+  const cat = document.getElementById("cat").value.trim();
+
+  if(!name || !price || !img || !cat){
+    alert("Rellena todos los campos 💎");
+    return;
+  }
+
+  products.push({name, price, img, cat});
+  localStorage.setItem("products", JSON.stringify(products));
+
+  alert("Producto añadido 💎");
+}
+
+/* =========================
+   RENDER PRODUCTS (IMPORTANTE)
+========================= */
+
+function renderProducts(){
+  const container = document.querySelector(".products");
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  products.forEach(p=>{
+    const name = String(p.name || "");
+    const price = Number(p.price) || 0;
+    const card = document.createElement("div");
+    const image = document.createElement("img");
+    const title = document.createElement("h3");
+    const priceText = document.createElement("p");
+    const addButton = document.createElement("button");
+    const favButton = document.createElement("button");
+
+    card.className = "card reveal";
+    card.dataset.cat = String(p.cat || "");
+
+    image.src = String(p.img || "");
+    image.alt = name;
+
+    title.textContent = name;
+    priceText.textContent = `${price}€`;
+
+    addButton.type = "button";
+    addButton.textContent = "Añadir";
+    addButton.addEventListener("click", () => add(name, price));
+
+    favButton.className = "fav";
+    favButton.type = "button";
+    favButton.dataset.name = name;
+    favButton.textContent = isFav(name) ? "❤️" : "🤍";
+    favButton.addEventListener("click", () => toggleFav(name));
+
+    card.append(image, title, priceText, addButton, favButton);
+    container.appendChild(card);
+  });
+
+  updateFavUI();
+  initReveal();
+}
+
+/* =========================
+   SCROLL REVEAL (APPLE STYLE)
+========================= */
+
+function initReveal(){
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add("show");
+      }
+    });
+  });
+
+  document.querySelectorAll(".reveal").forEach(el=>{
+    observer.observe(el);
+  });
+}
+
+/* =========================
+   INIT APP
+========================= */
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  renderCart();
+  updateFavUI();
+  renderProducts();
+  initReveal();
+});
+const params = new URLSearchParams(window.location.search);
+
+document.getElementById("productName").innerText =
+params.get("name");
+
+document.getElementById("productPrice").innerText =
+params.get("price") + "€";
+
+document.getElementById("productImg").src =
+params.get("img");
+
+
+
+/* =========================
+   FAVORITOS
+========================= */
+
+let favs = JSON.parse(localStorage.getItem("favs")) || [];
+
+// guardar
+function saveFavs(){
+  localStorage.setItem("favs", JSON.stringify(favs));
+}
+
+// toggle favorito
+function toggleFav(name, price, img){
+
+  const exists = favs.find(p => p.name === name);
+
+  if(exists){
+    favs = favs.filter(p => p.name !== name);
+  } else {
+    favs.push({name, price, img});
+  }
+
+  saveFavs();
+  updateFavUI();
+}
+
+// comprobar
+function isFav(name){
+  return favs.some(p => p.name === name);
+}
+
+// actualizar UI
+function updateFavUI(){
+
+  document.querySelectorAll(".fav").forEach(btn => {
+
+    const name = btn.dataset.name;
+
+    btn.innerHTML = isFav(name) ? "❤️" : "🤍";
+
+  });
 }
