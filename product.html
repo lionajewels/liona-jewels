@@ -24,9 +24,23 @@
     <a href="contact.html">Contacto</a>
   </nav>
 
-  <div class="cart-btn" onclick="toggleCart()">
-    🛒 <span id="count">0</span>
-  </div>
+ <div class="cart-btn" onclick="toggleCart()">
+
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M3 5H5L7 15H18L21 8H8"
+      stroke="black"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+
+    <circle cx="9" cy="20" r="1.5" fill="black"/>
+    <circle cx="18" cy="20" r="1.5" fill="black"/>
+  </svg>
+
+  <span id="count">0</span>
+
+</div>
+
 </header>
 
 <!-- PRODUCT VIEW -->
@@ -81,43 +95,6 @@
 
 <script src="app.js"></script>
 
-<script>
-// ===== LEER URL =====
-const params = new URLSearchParams(window.location.search);
-
-const name = params.get("name");
-const price = params.get("price");
-const img = params.get("img");
-
-// ===== MOSTRAR PRODUCTO =====
-document.getElementById("pname").innerText = name;
-document.getElementById("pprice").innerText = price + "€";
-document.getElementById("pimg").src = img;
-
-// ===== BOTÓN AÑADIR =====
-document.getElementById("addBtn").onclick = () => {
-  add(name, parseFloat(price), img);
-  alert("Añadido al carrito 💎");
-};
-
-// ===== FAVORITO =====
-const favBtn = document.getElementById("favBtn");
-
-// estado inicial
-if (isFav(name)) {
-  favBtn.classList.add("active");
-}
-
-favBtn.onclick = () => {
-  toggleFav(name);
-  favBtn.classList.toggle("active");
-};
-
- if (!name || !price) {
-  document.querySelector(".product-page").innerHTML =
-    "<p>Producto no encontrado</p>";
-}
-</script>
 
 </body>
 </html>
