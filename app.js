@@ -94,7 +94,7 @@ function heartSVG(active){
         .5-1 1.8-2 3.8-2 3.7 0 5.7 3.7 3.7 7C19 16.4 12 21 12 21z"
         stroke="currentColor"
         stroke-width="1.6"
-        stroke-linejoin="round"/>
+        stroke-linejoin="round"></path>/>
     </svg>
   `;
 }
@@ -296,7 +296,7 @@ function prevImg(btn){
    PRODUCT PAGE FIX
 ========================= */
 
-let params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 
 const pname = document.getElementById("pname");
 const pprice = document.getElementById("pprice");
