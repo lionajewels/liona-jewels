@@ -296,7 +296,7 @@ function prevImg(btn){
    PRODUCT PAGE FIX
 ========================= */
 
-const params = new URLSearchParams(window.location.search);
+let params = new URLSearchParams(window.location.search);
 
 const pname = document.getElementById("pname");
 const pprice = document.getElementById("pprice");
