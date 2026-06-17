@@ -672,55 +672,88 @@ button:hover{
 
 /* FOOTER */
 
-footer{
-  text-align:center;
+.footer-lux{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  align-items:center;
 
   padding:60px 20px;
-
   background:rgba(255,255,255,.35);
-
-  margin-top:60px;
-}
-
-.footer-logo{
-  width:120px;
-  height:auto;
-
-  margin:0 auto 18px;
-}
-
-.footer-brand{
-  margin-bottom:25px;
-}
-
-.footer-brand h3{
-  font-family:'Playfair Display';
-  margin-bottom:10px;
-}
-
-.footer-social{
-  display:flex;
-  justify-content:center;
   gap:30px;
-  flex-wrap:wrap;
 }
 
-.footer-social a{
+/* LEFT */
+.footer-lux-left{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.footer-lux-logo{
+  width:70px;
+  height:auto;
+}
+
+.footer-lux-left h3{
+  font-family:'Playfair Display';
+  font-size:18px;
+  margin:0;
+}
+
+.footer-tag{
+  font-size:12px;
+  opacity:.7;
+}
+
+/* CENTER */
+.footer-lux-center{
+  text-align:center;
+  opacity:.8;
+  line-height:1.6;
+}
+
+/* RIGHT */
+.footer-lux-right{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:flex-end;
+}
+
+.lux-link{
   display:flex;
   align-items:center;
   gap:10px;
 
+  color:inherit;
+  text-decoration:none;
+
   transition:.3s;
 }
 
-.footer-social a:hover{
+.lux-link:hover{
   transform:translateY(-2px);
 }
 
-.footer-social svg{
-  width:20px;
-  height:20px;
+.lux-link svg{
+  width:18px;
+  height:18px;
 }
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .footer-lux{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .footer-lux-left,
+  .footer-lux-right{
+    justify-content:center;
+    align-items:center;
+  }
+}
+
 
 
 /* 12.RESPONSIVE */
