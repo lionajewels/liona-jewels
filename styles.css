@@ -682,7 +682,45 @@ footer{
   margin-top:60px;
 }
 
+.footer-logo{
+  width:120px;
+  height:auto;
 
+  margin:0 auto 18px;
+}
+
+.footer-brand{
+  margin-bottom:25px;
+}
+
+.footer-brand h3{
+  font-family:'Playfair Display';
+  margin-bottom:10px;
+}
+
+.footer-social{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+}
+
+.footer-social a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  transition:.3s;
+}
+
+.footer-social a:hover{
+  transform:translateY(-2px);
+}
+
+.footer-social svg{
+  width:20px;
+  height:20px;
+}
 
 
 /* 12.RESPONSIVE */
