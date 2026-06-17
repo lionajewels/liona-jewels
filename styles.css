@@ -286,6 +286,32 @@ button:hover{
 .fav:active{
   transform:scale(0.9);
 }
+
+.fav-product{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:white;
+  border:none;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  box-shadow:0 8px 25px rgba(0,0,0,.10);
+  transition:.25s;
+}
+
+.fav-product:hover{
+  transform:translateY(-2px);
+}
+
+.fav-product.active .fav-icon{
+  fill:#d94b6a;
+  color:#d94b6a;
+}
 /*SVG*/
 .values{
   display:grid;
