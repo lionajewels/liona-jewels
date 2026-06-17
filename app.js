@@ -94,7 +94,7 @@ function filter(cat){
 }
 
 /* =========================
-   PRODUCT PAGE (FIXED + CARRUSEL READY)
+   PRODUCT PAGE + CARRUSEL
 ========================= */
 
 if (document.getElementById("pname")) {
@@ -111,16 +111,36 @@ if (document.getElementById("pname")) {
   document.getElementById("pname").textContent = name;
   document.getElementById("pprice").textContent = price + "€";
 
-  const mainImg = document.getElementById("pimg");
+  // MAIN IMAGE
+  const mainImg = document.getElementById("mainImg");
   mainImg.src = img1;
 
-  if(img2) document.getElementById("img2")?.setAttribute("src", img2);
-  if(img3) document.getElementById("img3")?.setAttribute("src", img3);
+  // THUMBS (solo si existen en HTML)
+  const thumb1 = document.getElementById("img1");
+  const thumb2 = document.getElementById("img2");
+  const thumb3 = document.getElementById("img3");
 
+  if (thumb1) {
+    thumb1.src = img1;
+    thumb1.onclick = () => mainImg.src = img1;
+  }
+
+  if (thumb2 && img2) {
+    thumb2.src = img2;
+    thumb2.onclick = () => mainImg.src = img2;
+  }
+
+  if (thumb3 && img3) {
+    thumb3.src = img3;
+    thumb3.onclick = () => mainImg.src = img3;
+  }
+
+  // ADD TO CART
   document.getElementById("addBtn").onclick = () => {
     add(name, Number(price), img1);
   };
 
+  // FAVORITO
   const favBtn = document.getElementById("favBtn");
 
   if (isFav(name)) favBtn.classList.add("active");
@@ -129,4 +149,5 @@ if (document.getElementById("pname")) {
     toggleFav(name);
     favBtn.classList.toggle("active");
   };
+}
 }
