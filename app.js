@@ -151,7 +151,6 @@ function initProductPage(){
       favBtn.classList.toggle("active");
     };
   }
-}
 
 /* =========================
    INIT
