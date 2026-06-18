@@ -337,7 +337,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
   renderCart();
   renderProducts();
   initReveal();
+ // 👉 FILTRO DESDE INDEX
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get("cat");
 
+  if (cat) {
+    filter(cat);
+  }
 });
 
 /* =========================
