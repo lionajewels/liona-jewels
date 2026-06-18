@@ -10,16 +10,52 @@ let products = [
     cat:"sencillos",
     images:[
   "images/indus1.jpg",
-  "images/indus2.jpg",
-  "images/indus3.jpg"
+  "images/indus2.jpg"
 ]
   },
   {
     name:"Ara",
     price:8,
     cat:"sencillos",
-    images:["images/ara1.jpg","images/ara2.jpg","images/ara3.jpg"]
+    images:["images/ara1.jpg"]
   },
+    {
+    name:"Andromeda",
+    price:8,
+    cat:"sencillos",
+    images:["images/andromeda1.jpg"]
+  },
+    {
+    name:"Lyra",
+    price:8,
+    cat:"sencillos",
+    images:["images/lyra1.jpg","images/lyra2.jpg"]
+  },
+    {
+    name:"Corona Borealis",
+    price:5,
+    cat:"sencillos",
+    images:["images/coronaborealis1.jpg"]
+  },
+    {
+    name:"Corona Australis",
+    price:5,
+    cat:"sencillos",
+    images:["images/coronaaustralis1.jpg"]
+  },
+    {
+    name:"Volans Plata",
+    price:6,
+    cat:"sencillos",
+    images:["images/volansplata1.jpg"]
+  },
+    {
+    name:"Volans Oro",
+    price:6,
+    cat:"sencillos",
+    images:["images/volansoro1.jpg"]
+  },
+
   {
     name:"Leo",
     price:8,
@@ -33,11 +69,107 @@ let products = [
     images:["images/taurus1.jpg","images/taurus2.jpg","images/taurus3.jpg"]
   },
    {
+    name:"Anthe",
+    price:8,
+    cat:"aros",
+    images:["images/anthe1.jpg","images/anthe2.jpg"]
+  },
+   {
+    name:"Meissa",
+    price:8,
+    cat:"aros",
+    images:["images/meissa1.jpg","images/meissa2.jpg"]
+  },
+   {
+    name:"Eris",
+    price:8,
+    cat:"aros",
+    images:["images/eris1.jpg","images/eris2.jpg"]
+  },
+   {
+    name:"Bianca",
+    price:8,
+    cat:"aros",
+    images:["images/bianca1.jpg","images/bianca2.jpg","images/bianca3.jpg"]
+  },
+   {
     name:"Pyxis",
     price:8,
     cat:"largos",
-    images:["images/pyxis1.jpg","images/pyxis2.jpg","images/pyxis3.jpg"]
-  }
+    images:["images/pyxis1.jpg"]
+  },
+   {
+    name:"Casiopea",
+    price:8,
+    cat:"largos",
+    images:["images/casiopea1.jpg"]
+  },
+    {
+    name:"Norma",
+    price:10,
+    cat:"largos",
+    images:["images/norma1.jpg"]
+  },
+    {
+    name:"Crux Plata",
+    price:8,
+    cat:"largos",
+    images:["images/cruxplata1.jpg","images/cruxplata2.jpg"]
+  },
+    {
+    name:"Crux Oro",
+    price:8,
+    cat:"largos",
+    images:["images/cruxoro1.jpg","images/cruxoro2.jpg"]
+  },
+    {
+    name:"Aquila Plata",
+    price:8,
+    cat:"largos",
+    images:["images/aquilaplata1.jpg","images/aquilaplata2.jpg"]
+  },
+    {
+    name:"Aquila Oro",
+    price:8,
+    cat:"largos",
+    images:["images/aquilaoro1.jpg","images/aquilaoro2.jpg"]
+  },
+    {
+    name:"Tucana",
+    price:10,
+    cat:"largos",
+    images:["images/tucana1.jpg","images/tucana2.jpg"]
+  },
+   {
+    name:"Gemini",
+    price:10,
+    cat:"largos",
+    images:["images/gemini1.jpg","images/gemini2.jpg"]
+  },
+   {
+    name:"Vela",
+    price:8,
+    cat:"largos",
+    images:["images/vela1.jpg"]
+  },
+   {
+    name:"Orion",
+    price:8,
+    cat:"largos",
+    images:["images/orion1.jpg","images/orion2.jpg"]
+  },
+   {
+    name:"Eridanus",
+    price:8,
+    cat:"largos",
+    images:["images/eridanus1.jpg","images/eridanus2.jpg"]
+  },
+   {
+    name:"Phoenix",
+    price:8,
+    cat:"largos",
+    images:["images/phoenix1.jpg","images/phoenix2.jpg"]
+  },
 ];
 
 /* =========================
