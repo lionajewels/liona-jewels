@@ -999,9 +999,16 @@ button:hover{
   animation: fadeUp 0.8s ease;
 }
 
+.thanks-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
 .thanks-logo img {
   width: 130px;
-  margin-bottom: 30px;
+  display: block;
 }
 
 .check-wrapper {
