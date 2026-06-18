@@ -56,6 +56,8 @@
     <input type="hidden" name="_template" value="box">
 
     <input type="hidden" name="pedido" id="pedidoInput">
+    <input type="hidden" name="total" id="totalInput">
+    <input type="hidden" name="articulos" id="articulosInput">
 
     <input type="text" name="nombre" placeholder="Nombre completo" required>
 
@@ -74,6 +76,7 @@
 <script src="app.js"></script>
 
 <script>
+  
 document.addEventListener("DOMContentLoaded", () => {
 
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -82,10 +85,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const pedidoInput = document.getElementById("pedidoInput");
 
   let total = 0;
+  
 
   let html = `
   <div style="font-family:Arial;padding:20px;">
-    <h2>💎 Liona Jewels - Pedido</h2>
+    <h2 style="display:flex;align-items:center;gap:10px;">
+
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M6 4H18L22 9L12 20L2 9L6 4Z"
+      stroke="#b68c5a"
+      stroke-width="1.4"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M6 4L12 9L18 4"
+      stroke="#b68c5a"
+      stroke-width="1.4"
+    />
+    <path
+      d="M2 9H22"
+      stroke="#b68c5a"
+      stroke-width="1.4"
+    />
+  </svg>
+
+  Liona Jewels - Pedido
+
+</h2>
 
     <table style="width:100%;border-collapse:collapse;margin-top:20px;">
   `;
@@ -120,10 +147,23 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
 
   summary.innerHTML = html;
-  pedidoInput.value = html;
+  let pedidoTexto = "";
+
+cart.forEach(item => {
+  pedidoTexto += `
+Producto: ${item.name}
+Precio: ${item.price}€
+
+`;
+});
+
+pedidoTexto += `Total: ${total}€`;
+
+pedidoInput.value = pedidoTexto;
+  document.getElementById("totalInput").value = total + "€";
+  document.getElementById("articulosInput").value = cart.length;
 
 });
 </script>
 </body>
 </html>
-</script>
