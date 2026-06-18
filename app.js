@@ -5,22 +5,38 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let products = [
   {
-    name:"Minimal",
-    price:12,
+    name:"Indus",
+    price:8,
     cat:"sencillos",
-    images:["img1.jpg","img2.jpg","img3.jpg"]
+    images:[
+  "images/indus1.jpg",
+  "images/indus2.jpg",
+  "images/indus3.jpg"
+]
   },
   {
-    name:"Perla",
-    price:14,
+    name:"Ara",
+    price:8,
     cat:"sencillos",
-    images:["img4.jpg","img5.jpg","img6.jpg"]
+    images:["images/ara1.jpg","images/ara2.jpg","images/ara3.jpg"]
   },
   {
-    name:"Aros",
-    price:16,
+    name:"Leo",
+    price:8,
     cat:"aros",
-    images:["img7.jpg","img8.jpg","img9.jpg"]
+    images:["images/leo1.jpg","images/leo2.jpg","images/leo3.jpg"]
+  },
+   {
+    name:"Taurus",
+    price:8,
+    cat:"aros",
+    images:["images/taurus1.jpg","images/taurus2.jpg","images/taurus3.jpg"]
+  },
+   {
+    name:"Pyxis",
+    price:8,
+    cat:"largos",
+    images:["images/pyxis1.jpg","images/pyxis2.jpg","images/pyxis3.jpg"]
   }
 ];
 
