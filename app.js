@@ -170,6 +170,12 @@ let products = [
     cat:"largos",
     images:["images/phoenix1.jpg","images/phoenix2.jpg"]
   },
+   {
+    name:"Ceres",
+    price:6,
+    cat:"aretes",
+    images:["images/ceres1.jpg","images/ceres2.jpg"]
+  },
 ];
 
 /* =========================
