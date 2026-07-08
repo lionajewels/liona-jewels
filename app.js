@@ -60,7 +60,7 @@ let products = [
     price:8,
     cat:"sencillos",
     images:[
-  "images/lacerta1.jpg"
+  "images/lacerta1.jpg","images/lacerta2.jpg"
 ]
   },
     {
