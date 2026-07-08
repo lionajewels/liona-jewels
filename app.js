@@ -55,7 +55,22 @@ let products = [
     cat:"sencillos",
     images:["images/volansoro1.jpg"]
   },
-
+ {
+    name:"Lacerta",
+    price:8,
+    cat:"sencillos",
+    images:[
+  "images/lacerta1.jpg"
+]
+  },
+    {
+    name:"Auriga",
+    price:8,
+    cat:"sencillos",
+    images:[
+  "images/auriga1.jpg"
+]
+  },
   {
     name:"Leo",
     price:8,
@@ -174,7 +189,13 @@ let products = [
     name:"Ceres",
     price:6,
     cat:"aretes",
-    images:["images/ceres1.jpg","images/ceres2.jpg"]
+    images:["images/ceres1.jpg"]
+  },
+    {
+    name:"Lynx",
+    price:8,
+    cat:"aretes",
+    images:["images/lynx1.jpg"]
   },
 ];
 
