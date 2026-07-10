@@ -139,46 +139,7 @@
 
 <script src="app.js"></script>
 
-<script>
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const summary = document.getElementById("orderSummary");
-    const totalElement = document.getElementById("orderTotal");
-
-    let total = 0;
-
-    summary.innerHTML = "";
-
-    cart.forEach(item => {
-
-        total += Number(item.price);
-
-        summary.innerHTML += `
-            <div class="checkout-item">
-
-                <img src="${item.img}" alt="${item.name}">
-
-                <div>
-
-                    <h3>${item.name}</h3>
-
-                    <p>${item.price}€</p>
-
-                </div>
-
-            </div>
-        `;
-
-    });
-
-    totalElement.textContent = total + "€";
-
-});
-
-</script>
 
 </body>
 </html>
