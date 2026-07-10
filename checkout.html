@@ -14,159 +14,171 @@
 <body>
 
 <header>
+
   <a class="logo" href="index.html">
-  <img src="logo.png" alt="Liona Jewels">
-</a>
+    <img src="logo.png" alt="Liona Jewels">
+  </a>
 
   <nav>
     <a href="index.html">Home</a>
     <a href="shop.html">Productos</a>
     <a href="contact.html">Contacto</a>
   </nav>
+
   <div class="cart-btn" onclick="toggleCart()">
 
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <path d="M3 5H5L7 15H18L21 8H8"
-      stroke="black"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"/>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 5H5L7 15H18L21 8H8"
+        stroke="black"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
 
-    <circle cx="9" cy="20" r="1.5" fill="black"/>
-    <circle cx="18" cy="20" r="1.5" fill="black"/>
-  </svg>
+      <circle cx="9" cy="20" r="1.5" fill="black"/>
+      <circle cx="18" cy="20" r="1.5" fill="black"/>
+    </svg>
 
-  <span id="count">0</span>
+    <span id="count">0</span>
 
-</div>
+  </div>
+
 </header>
 
-<section class="checkout">
 
-  <h1>Finalizar pedido</h1>
+<section class="checkout reveal">
 
-  <!-- RESUMEN CARRITO -->
-  <div id="orderSummary"></div>
+    <h1>Finalizar pedido</h1>
 
-  <!-- FORMULARIO -->
-  <form action="https://formsubmit.co/lionajewels@gmail.com" method="POST">
+    <!-- RESUMEN -->
+    <div class="checkout-summary">
 
-    <input type="hidden" name="_subject" value="💎 Nuevo pedido Liona Jewels">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_template" value="box">
+        <h2>Tu pedido</h2>
 
-    <input type="hidden" name="pedido" id="pedidoInput">
-    <input type="hidden" name="total" id="totalInput">
-    <input type="hidden" name="articulos" id="articulosInput">
-    <input type="hidden" name="_next" value="https://lionajewels.github.io/liona-jewels/thanks.html">
+        <div id="orderSummary"></div>
+
+        <div class="checkout-total">
+            <span>Total</span>
+            <strong id="orderTotal">0€</strong>
+        </div>
+
+    </div>
 
 
+    <!-- FORMULARIO -->
 
-    <input type="text" name="nombre" placeholder="Nombre completo" required>
+    <form id="checkoutForm">
 
-    <input type="email" name="email" placeholder="Email" required>
+        <h2>Información de envío</h2>
 
-    <input type="text" name="direccion" placeholder="Dirección de envío" required>
+        <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            placeholder="Nombre completo"
+            required
+        >
 
-    <button type="submit">
-      Confirmar pedido
-    </button>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Correo electrónico"
+            required
+        >
 
-  </form>
+        <input
+            type="text"
+            id="direccion"
+            name="direccion"
+            placeholder="Dirección"
+            required
+        >
+
+        <div class="checkout-row">
+
+            <input
+                type="text"
+                id="cp"
+                name="cp"
+                placeholder="Código postal"
+                required
+            >
+
+            <input
+                type="text"
+                id="ciudad"
+                name="ciudad"
+                placeholder="Ciudad"
+                required
+            >
+
+        </div>
+
+        <input
+            type="text"
+            id="provincia"
+            name="provincia"
+            placeholder="Provincia"
+            required
+        >
+
+        <textarea
+            id="notas"
+            name="notas"
+            placeholder="Observaciones (opcional)"
+        ></textarea>
+
+        <button type="submit" class="btn">
+            Confirmar pedido
+        </button>
+
+    </form>
 
 </section>
+
 
 <script src="app.js"></script>
 
 <script>
-  
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  const summary = document.getElementById("orderSummary");
-  const pedidoInput = document.getElementById("pedidoInput");
+    const summary = document.getElementById("orderSummary");
+    const totalElement = document.getElementById("orderTotal");
 
-  let total = 0;
-  
+    let total = 0;
 
-  let html = `
-  <div style="font-family:Arial;padding:20px;">
-    <h2 style="display:flex;align-items:center;gap:10px;">
+    summary.innerHTML = "";
 
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M6 4H18L22 9L12 20L2 9L6 4Z"
-      stroke="#b68c5a"
-      stroke-width="1.4"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M6 4L12 9L18 4"
-      stroke="#b68c5a"
-      stroke-width="1.4"
-    />
-    <path
-      d="M2 9H22"
-      stroke="#b68c5a"
-      stroke-width="1.4"
-    />
-  </svg>
+    cart.forEach(item => {
 
-  Liona Jewels - Pedido
+        total += Number(item.price);
 
-</h2>
+        summary.innerHTML += `
+            <div class="checkout-item">
 
-    <table style="width:100%;border-collapse:collapse;margin-top:20px;">
-  `;
+                <img src="${item.img}" alt="${item.name}">
 
-  cart.forEach(item => {
+                <div>
 
-    const name = item.name || "";
-    const price = Number(item.price) || 0;
-    const img = item.img || "";
+                    <h3>${item.name}</h3>
 
-    total += price;
+                    <p>${item.price}€</p>
 
-    html += `
-      <tr style="border-bottom:1px solid #eee;">
-        <td style="padding:10px;width:80px;">
-          <img src="${img}" width="60" style="border-radius:8px;">
-        </td>
+                </div>
 
-        <td style="padding:10px;">
-          <strong>${name}</strong><br>
-          <span>${price}€</span>
-        </td>
-      </tr>
-    `;
-  });
+            </div>
+        `;
 
-  html += `
-    </table>
+    });
 
-    <h3 style="margin-top:20px;">Total: ${total}€</h3>
-  </div>
-  `;
-
-  summary.innerHTML = html;
-  let pedidoTexto = "";
-
-cart.forEach(item => {
-  pedidoTexto += `
-Producto: ${item.name}
-Precio: ${item.price}€
-
-`;
-});
-
-pedidoTexto += `Total: ${total}€`;
-
-pedidoInput.value = pedidoTexto;
-  document.getElementById("totalInput").value = total + "€";
-  document.getElementById("articulosInput").value = cart.length;
+    totalElement.textContent = total + "€";
 
 });
+
 </script>
+
 </body>
 </html>
