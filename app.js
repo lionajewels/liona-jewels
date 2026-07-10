@@ -286,11 +286,93 @@ function filter(cat){
    CHECKOUT
 ========================= */
 
-function goCheckout(){
-  localStorage.setItem("cart", JSON.stringify(cart));
-  window.location.href = "checkout.html";
-}
+function goCheckout() {
 
+    saveCart();
+
+    window.location.href = "checkout.html";
+
+}
+function initCheckout() {
+
+    const summary = document.getElementById("orderSummary");
+
+    if (!summary) return;
+
+    const totalElement = document.getElementById("orderTotal");
+    const form = document.getElementById("checkoutForm");
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let total = 0;
+
+    summary.innerHTML = "";
+
+    if (cart.length === 0) {
+
+        summary.innerHTML = "<p>Tu carrito está vacío.</p>";
+
+        if (totalElement) {
+            totalElement.textContent = "0€";
+        }
+
+        return;
+    }
+
+    cart.forEach(item => {
+
+        total += Number(item.price);
+
+        summary.innerHTML += `
+            <div class="checkout-item">
+                <img src="${item.img}" alt="${item.name}">
+                <div>
+                    <h3>${item.name}</h3>
+                    <p>${item.price}€</p>
+                </div>
+            </div>
+        `;
+
+    });
+
+    totalElement.textContent = total + "€";
+
+    form.addEventListener("submit", e => {
+
+        e.preventDefault();
+
+        const pedido = {
+
+            cliente: {
+                nombre: form.nombre.value,
+                email: form.email.value,
+                direccion: form.direccion.value,
+                cp: form.cp.value,
+                ciudad: form.ciudad.value,
+                provincia: form.provincia.value,
+                notas: form.notas.value
+            },
+
+            productos: cart,
+
+            total
+
+        };
+
+        console.log(pedido);
+
+    });
+
+}
+document.addEventListener("DOMContentLoaded", () => {
+
+    renderCart();
+    updateFavUI();
+    initReveal();
+    initProductPage();
+    initCheckout();
+
+});
 /* =========================
    PRODUCTS RENDER
 ========================= */
