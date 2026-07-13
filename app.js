@@ -302,6 +302,8 @@ function initCheckout() {
     const totalElement = document.getElementById("orderTotal");
     const form = document.getElementById("checkoutForm");
 
+if (!summary || !form) return;
+
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     let total = 0;
@@ -337,31 +339,67 @@ function initCheckout() {
 
     totalElement.textContent = total + "€";
 
-    form.addEventListener("submit", e => {
+    form.addEventListener("submit", async e => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        const pedido = {
+    const pedido = {
 
-            cliente: {
-                nombre: form.nombre.value,
-                email: form.email.value,
-                direccion: form.direccion.value,
-                cp: form.cp.value,
-                ciudad: form.ciudad.value,
-                provincia: form.provincia.value,
-                notas: form.notas.value
+        cliente: {
+            nombre: form.nombre.value,
+            email: form.email.value,
+            direccion: form.direccion.value,
+            cp: form.cp.value,
+            ciudad: form.ciudad.value,
+            provincia: form.provincia.value,
+            notas: form.notas.value
+        },
+
+        productos: cart,
+
+        total
+
+    };
+
+    try {
+
+        const res = await fetch("http://localhost:3000/pedido", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
             },
 
-            productos: cart,
+            body: JSON.stringify(pedido)
 
-            total
+        });
 
-        };
+        const data = await res.json();
 
-        console.log(pedido);
+        if (data.success) {
 
-    });
+            localStorage.removeItem("cart");
+
+            alert("Pedido enviado correctamente 💎");
+
+            window.location.href = "thanks.html";
+
+        } else {
+
+            alert("Ha ocurrido un error.");
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("No se ha podido conectar con el servidor.");
+
+    }
+
+});
 
 }
 document.addEventListener("DOMContentLoaded", () => {
