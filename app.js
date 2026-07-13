@@ -3,7 +3,7 @@
 ========================= */
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let products = [
+const products = [
   {
     name:"Indus",
     price:8,
@@ -251,7 +251,7 @@ function renderCart(){
     const text = document.createElement("span");
     const btn = document.createElement("button");
 
-    text.textContent = `${item.name} - ${item.price}€`;
+    text.textContent = `${item.name} - ${Number(item.price)}€`;
 
     btn.textContent = "✕";
     btn.className = "remove-item";
@@ -260,7 +260,7 @@ function renderCart(){
     div.append(text, btn);
     cartItems.appendChild(div);
 
-    total += item.price;
+    total += Number(item.price);
   });
 
   const totalEl = document.getElementById("total");
@@ -295,16 +295,12 @@ function goCheckout() {
 }
 function initCheckout() {
 
-    const summary = document.getElementById("orderSummary");
-
-    if (!summary) return;
-
-    const totalElement = document.getElementById("orderTotal");
-    const form = document.getElementById("checkoutForm");
+const summary = document.getElementById("orderSummary");
+const totalElement = document.getElementById("orderTotal");
+const form = document.getElementById("checkoutForm");
 
 if (!summary || !form) return;
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     let total = 0;
 
@@ -363,7 +359,7 @@ if (!summary || !form) return;
 
     try {
 
-        const res = await fetch("http://localhost:3000/pedido", {
+        const res = await fetch("https://liona-jewels.onrender.com/pedido", {
 
             method: "POST",
 
@@ -379,9 +375,8 @@ if (!summary || !form) return;
 
         if (data.success) {
 
-            localStorage.removeItem("cart");
-
-            alert("Pedido enviado correctamente 💎");
+            cart.length = 0;
+            saveCart();
 
             window.location.href = "thanks.html";
 
@@ -402,15 +397,6 @@ if (!summary || !form) return;
 });
 
 }
-document.addEventListener("DOMContentLoaded", () => {
-
-    renderCart();
-    updateFavUI();
-    initReveal();
-    initProductPage();
-    initCheckout();
-
-});
 /* =========================
    PRODUCTS RENDER
 ========================= */
@@ -428,12 +414,24 @@ function renderProducts(){
     card.className = "card reveal";
     card.dataset.cat = p.cat;
     card.onclick = () => {
-  window.location.href =
-    `product.html?name=${encodeURIComponent(p.name)}`;
+
+    const params = new URLSearchParams({
+
+        name: p.name,
+        price: p.price,
+        img: p.images[0] || "",
+        img2: p.images[1] || "",
+        img3: p.images[2] || ""
+
+    });
+
+    window.location.href = `product.html?${params.toString()}`;
+
 };
 
     const img = document.createElement("img");
     img.src = p.images[0];
+    img.alt = p.name;
 
     const title = document.createElement("h3");
     title.textContent = p.name;
@@ -443,7 +441,14 @@ function renderProducts(){
 
     const btn = document.createElement("button");
     btn.textContent = "Añadir";
-    btn.onclick = (e) => {    e.stopPropagation();    add(     p.name,     p.price,     p.images[0]   ); };
+    btn.onclick = (e) => {    
+      e.stopPropagation();    
+      add(     
+        p.name,     
+        p.price,     
+        p.images[0]  
+       ); 
+      };
 
    
 
@@ -477,20 +482,71 @@ function initReveal(){
 /* =========================
    INIT
 ========================= */
+function initProductPage() {
 
+    const pname = document.getElementById("pname");
+    const pprice = document.getElementById("pprice");
+    const pimg = document.getElementById("pimg");
 
-document.addEventListener("DOMContentLoaded", ()=>{
+    if (!pname || !pprice || !pimg) return;
 
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+
+    const product = products.find(p => p.name === name);
+
+    if (!product) {
+        window.location.href = "shop.html";
+        return;
+    }
+
+    pname.textContent = product.name;
+    pprice.textContent = product.price + "€";
+
+    pimg.src = product.images[0];
+    pimg.dataset.images = product.images.join(",");
+    pimg.dataset.index = "0";
+
+    const addBtn = document.getElementById("addBtn");
+
+    if (addBtn) {
+        addBtn.onclick = () => {
+            add(product.name, product.price, product.images[0]);
+        };
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Carrito
   renderCart();
-  renderProducts();
-  initReveal();
- // 👉 FILTRO DESDE INDEX
-  const params = new URLSearchParams(window.location.search);
-  const cat = params.get("cat");
 
-  if (cat) {
-    filter(cat);
-  }
+  // Tienda
+  renderProducts();
+
+
+  // Página de producto
+  initProductPage();
+
+  // Checkout
+  initCheckout();
+  
+
+  // Swipe del carrusel
+  document.querySelectorAll(".carousel-img").forEach(img => {
+
+    img.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    img.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe(img);
+    });
+
+  });
+
 });
 
 /* =========================
@@ -549,22 +605,7 @@ function handleSwipe(imgEl) {
     setImg(imgEl, index - 1);
   }
 }
-document.addEventListener("DOMContentLoaded", () => {
 
-  document.querySelectorAll(".carousel-img").forEach(img => {
-
-    img.addEventListener("touchstart", (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    img.addEventListener("touchend", (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe(img);
-    });
-
-  });
-
-});
 /* =========================
    PRODUCT PAGE FIX
 ========================= */
