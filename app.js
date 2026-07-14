@@ -531,6 +531,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Checkout
   initCheckout();
+
+  initReveal();
   
 
   // Swipe del carrusel

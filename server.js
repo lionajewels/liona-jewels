@@ -83,7 +83,7 @@ app.post("/pedido", async (req, res) => {
             `;
 
         });
-
+    const numeroPedido = Math.floor(Date.now() / 1000);
         const html = `
         <div style="font-family:Arial;padding:30px;max-width:700px;">
 
