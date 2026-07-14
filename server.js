@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const app = express();
 
@@ -11,19 +11,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-/* =========================
-   TRANSPORTER GMAIL
-========================= */
-
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Puerto 587 usa STARTTLS
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 /* =========================
    HOME
@@ -145,17 +133,25 @@ app.post("/pedido", async (req, res) => {
         </div>
         `;
 
-        await transporter.sendMail({
+        const { data, error } = await resend.emails.send({
 
-            from: `"Liona Jewels" <${process.env.EMAIL_USER}>`,
+    from: "onboarding@resend.dev",
 
-            to: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
 
-            subject: `💎 Pedido ${numeroPedido} - ${cliente.nombre}`,
+    subject: `💎 Pedido ${numeroPedido} - ${cliente.nombre}`,
 
-            html
+    html: html
 
-        });
+});
+
+if (error) {
+    console.error(error);
+    return res.status(500).json({
+        success: false,
+        message: error.message
+    });
+}
 
         res.json({
             success: true
@@ -190,8 +186,8 @@ app.use((req, res) => {
 /* =========================
    START
 ========================= */
-if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.error("❌ Faltan EMAIL_USER o EMAIL_PASS en .env");
+if (!process.env.RESEND_API_KEY) {
+    console.error("❌ Falta RESEND_API_KEY en .env");
     process.exit(1);
 }
 app.listen(PORT, () => {
